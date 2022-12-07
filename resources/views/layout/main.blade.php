@@ -70,7 +70,7 @@
                     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Data Siswa</a>
+                            <a class="collapse-item" href="{{ route('siswa.index') }}">Data Siswa</a>
                             <a class="collapse-item" href="utilities-border.html">Data Penerbit</a>
                             <a class="collapse-item" href="utilities-animation.html">Administrator</a>
                         </div>
@@ -261,7 +261,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous">
     </script>
-    
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ url('sbadmin/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{ url('sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

@@ -18,6 +18,11 @@ class SiswaController extends Controller
         return view('index');
     }
 
+    public function indexSiswa()
+    {
+        return view('master_data.siswa.index');
+    }
+
     public function getSiswa(Request $request)
     {
         if ($request->ajax()) {
@@ -25,7 +30,7 @@ class SiswaController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($data) {
-                    return view('siswa.tombol', compact('data'));
+                    return view('master_data.siswa.tombol', compact('data'));
                 })
                 ->make(true);
         }

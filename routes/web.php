@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[SiswaController::class,'index'])->name('index');
 Route::get('/list',[SiswaController::class,'getSiswa'])->name('siswa.list');
 
+Route::get('/master-siswa',[SiswaController::class,'indexSiswa'])->name('siswa.index');
+
