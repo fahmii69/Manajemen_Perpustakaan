@@ -19,6 +19,7 @@
                             <th>Nama</th>
                             <th>Tgl.Lahir</th>
                             <th>Kelas</th>
+                            <th>Jenis Kelamin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

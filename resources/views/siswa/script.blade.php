@@ -16,6 +16,7 @@
             {data: 'nama', name: 'nama'},
             {data: 'tgl_lahir', name: 'tgl_lahir'},
             {data: 'kelas', name: 'kelas'},
+            {data: 'jenis_kelamin', name: 'jenis_kelamin'},
 
             {   data: 'aksi',
                 name: 'aksi'
