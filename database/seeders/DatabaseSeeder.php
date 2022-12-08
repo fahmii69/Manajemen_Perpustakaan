@@ -17,22 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create('id_ID');
-        $data  = [];
-
-        for ($i = 0; $i < 50; $i++) {
-            $gender = $faker->randomElements(['Laki-laki', 'Perempuan'])[0];
-            $data[] = [
-                'nisn'          => $faker->randomNumber(4, false),
-                'nama'          => $faker->name($gender),
-                'tgl_lahir'     => $faker->date(),
-                'alamat'       => $faker->address(),
-                'kelas'         => $faker->randomElement(['a', 'b', 'c', 'd', 'e']),
-                'jenis_kelamin' => $gender,
-                'created_at'    => now()->toDateTimeString(),
-                'updated_at'    => now()->toDateTimeString(),
-            ];
-        }
-        Siswa::insert($data);
+        $this->call([
+            KategoriBukuSeeder::class,
+            PenerbitBukuSeeder::class,
+            BukuSeeder::class,
+            SiswaSeeder::class,
+        ]);
     }
 }
