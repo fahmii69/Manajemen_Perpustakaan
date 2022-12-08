@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Models\Siswa;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Spatie\LaravelIgnition\Support\Composer\FakeComposer;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,16 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         $faker = Faker::create('id_ID');
         $data  = [];
 
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $gender = $faker->randomElements(['Laki-laki', 'Perempuan'])[0];
             $data[] = [
                 'nisn'          => $faker->randomNumber(4, false),
                 'nama'          => $faker->name($gender),
                 'tgl_lahir'     => $faker->date(),
+                'alamat'       => $faker->address(),
                 'kelas'         => $faker->randomElement(['a', 'b', 'c', 'd', 'e']),
                 'jenis_kelamin' => $gender,
                 'created_at'    => now()->toDateTimeString(),

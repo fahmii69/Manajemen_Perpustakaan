@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title','Datatable')
+@section('title','Data Siswa')
 
 @section('content')
 
@@ -11,12 +11,18 @@
     </i>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="" class="btn btn-success btn-icon-split tombol-tambah">
+            <a href="/siswa/create" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-user-plus"></i>
                 </span>
                 <span class="text">Tambah Data</span>
             </a>
+            <br>
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="yajra-dataTable" width="100%" cellspacing="0">

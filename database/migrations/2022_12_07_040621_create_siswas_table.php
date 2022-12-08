@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('nisn')->unique();
             $table->string('nama');
             $table->date('tgl_lahir');
+            $table->string('alamat');
             $table->string('kelas');
             $table->string('jenis_kelamin');
             $table->timestamps();

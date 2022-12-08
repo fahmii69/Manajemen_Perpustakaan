@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title','Datatable')
+@section('title','Perpustakaan Zoel')
 
 @section('content')
 
@@ -33,7 +33,5 @@
     
     @section('script')
     @include('layout.script');
-    
     @endsection
-    {{-- @include('siswa.tombol'); --}}
 
