@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Buku\Kategori;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class KategoriEditRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class KategoriEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,21 @@ class KategoriEditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'kode_kategori' => ['required', Rule::unique('kategori_bukus', 'kode_kategori')->ignore($this->kategori)],
+            'nama_kategori' => 'required',
+        ];
+    }
+
+    /**
+     * Validation custom message.
+     *
+     * @return array<string>
+     */
+    public function messages(): array
+    {
+        return [
+            'kode_kategori.required' => '*Kode Kategori Buku wajib diisi !',
+            'nama_kategori.required' => '*Nama Kategori Buku wajib diisi !.',
         ];
     }
 }

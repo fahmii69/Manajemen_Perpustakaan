@@ -30,7 +30,6 @@ class KategoriBukuController extends Controller
      * Get data from Database for Datatable
      *
      * @param Request $request
-     * @return DataTables
      */
     public function getKategori(Request $request)
     {
@@ -95,13 +94,12 @@ class KategoriBukuController extends Controller
      */
     public function update(KategoriEditRequest $request, KategoriBuku $kategori): RedirectResponse
     {
-        // dd(123);
         DB::transaction(function () use ($request, $kategori) {
             $kategori->fill($request->safe(
                 ['kode_kategori', 'nama_kategori']
             ));
 
-            $kategori->update();
+            $kategori->saveOrFail();
         });
         Alert::success('Success', 'Data kategori Berhasil DiUpdate !!!');
 

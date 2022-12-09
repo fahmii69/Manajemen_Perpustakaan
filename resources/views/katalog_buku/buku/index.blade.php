@@ -1,33 +1,35 @@
 @extends('layout.main')
 
-@section('title','Data Kategori')
+@section('title','Data Buku')
 
 @section('content')
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <i class="fas fa-clock">
-        <span class="h3 mb-4 text-gray-800">Data Kategori</span>
+        <span class="h3 mb-4 text-gray-800">Data Buku</span>
     </i>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="{{ route('kategori.create') }}" class="btn btn-success btn-icon-split">
+            <a href="{{ route('buku.create') }}" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-user-plus"></i>
                 </span>
-                <span class="text">Tambah Kategori Buku</span>
+                <span class="text">Tambah Katalog Buku</span>
             </a>
             <br>
             @include('sweetalert::alert')
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="kategori-dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="buku-dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Kategori</th>
-                            <th>Nama Kategori</th>
+                            <th>Judul</th>
+                            <th>Pengarang</th>
+                            <th>Penerbit</th>
+                            <th>Jmlh. Buku</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -44,10 +46,10 @@
 @include('layout.script');
 <script>
     $(document).ready(function () {
-        var table = $('#kategori-dataTable').DataTable({
+        var table = $('#buku-dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('kategori.list')}}",
+            ajax: "{{route('buku.list')}}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -55,12 +57,20 @@
                     searchable: false,
                 },
                 {
-                    data: 'kode_kategori',
-                    name: 'kode_kategori'
+                    data: 'judul',
+                    name: 'judul'
                 },
                 {
-                    data: 'nama_kategori',
-                    name: 'nama_kategori'
+                    data: 'pengarang',
+                    name: 'pengarang'
+                },
+                {
+                    data: 'penerbit',
+                    name: 'penerbit'
+                },
+                {
+                    data: 'jumlah_buku',
+                    name: 'jumlah_buku'
                 },
                 {
                     data: 'aksi',
@@ -88,7 +98,7 @@
         }).then(function (e) {
             if (e.value === true) {
                 let token = $('meta[name="csrf-token"]').attr('content');
-                var _url = `/kategori/${id}`;
+                var _url = `/buku/${id}`;
 
                 $.ajax({
                     type: 'delete',

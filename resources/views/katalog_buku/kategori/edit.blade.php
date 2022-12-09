@@ -6,36 +6,36 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Form Update Data Penerbit</h1>
+    <h1 class="h3 mb-4 text-gray-800">Form Update Data Kategori</h1>
     <!-- Basic Card Example -->
     <div class="card shadow mb-4 col-6">
         <div class="card-body">
-            <form method="post" action="{{ route('penerbit.update',$penerbit->id) }}">
+            <form method="post" action="{{ route('kategori.update',$kategori->id) }}">
                 @method('patch')
                 @csrf
                 <div class="form-group row">
-                    <label for="kode_penerbit" class="col-sm-4 col-form-label">Kode Penerbit</label>
+                    <label for="kode_kategori" class="col-sm-4 col-form-label">Kode Kategori</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control @error('kode_penerbit') is-invalid @enderror" id="kode_penerbit"
-                            name="kode_penerbit" value="{{ $penerbit->kode_penerbit}}" placeholder="Masukan Kode Penerbit">
-                        @error('kode_penerbit')
+                        <input type="text" class="form-control @error('kode_kategori') is-invalid @enderror" id="kode_kategori"
+                            name="kode_kategori" value="{{ $kategori->kode_kategori}}" placeholder="Masukan Kode Kategori">
+                        @error('kode_kategori')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="nama_penerbit" class="col-sm-4 col-form-label">Nama Penerbit</label>
+                    <label for="nama_kategori" class="col-sm-4 col-form-label">Nama Kategori</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control @error('nama_penerbit') is-invalid @enderror" id="nama_penerbit"
-                            name="nama_penerbit" value="{{ $penerbit->nama_penerbit}}" placeholder="Masukan Nama Penerbit">
-                        @error('nama_penerbit')
+                        <input type="text" class="form-control @error('nama_kategori') is-invalid @enderror" id="nama_kategori"
+                            name="nama_kategori" value="{{ $kategori->nama_kategori}}" placeholder="Masukan Nama Kategori">
+                        @error('nama_kategori')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <hr>
-                <a href="/penerbit" class="btn btn-success btn-icon-split">
+                <a href="/kategori" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-circle-left"></i>
                     </span>

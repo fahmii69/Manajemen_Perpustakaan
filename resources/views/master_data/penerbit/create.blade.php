@@ -3,10 +3,6 @@
 @section('title','Penerbit | Tambah Penerbit')
 
 @section('content')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -54,16 +50,5 @@
         </div>
     </div>
 </div>
-
-<!-- script select2  -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-</script>
-<script>
-    $(document).ready(function () {
-        $('.kelas').select2();
-        $('.jenis_kelamin').select2();
-    });
-</script>
 <!-- /.container-fluid -->
 @endsection

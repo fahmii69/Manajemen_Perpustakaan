@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('kategori')->constrained();
-            $table->string('penerbit')->constrained();
+            $table->string('kategori')->constrained('kategori_bukus');
+            $table->string('penerbit')->constrained('penerbit_bukus');
             $table->string('pengarang');
             $table->integer('tahun_terbit');
             $table->integer('isbn');
             $table->integer('jumlah_buku');
-            $table->integer('rak_buku');
+            $table->string('rak_buku');
             $table->timestamps();
         });
     }

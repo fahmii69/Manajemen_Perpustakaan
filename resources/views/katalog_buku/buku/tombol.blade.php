@@ -1,4 +1,4 @@
-<form action="{{ route('kategori.edit',$data->id) }}">
+<form action="{{ route('buku.edit',$data->id) }}">
     @method('patch')
     @csrf
     <button type="submit" class="btn btn-success btn-sm tombol-edit">Edit</button>

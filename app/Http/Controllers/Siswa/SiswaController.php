@@ -40,7 +40,6 @@ class SiswaController extends Controller
      * Get Data from Database for Datatable.
      *
      * @param Request $request
-     * @return DataTables
      */
     public function getSiswa(Request $request)
     {

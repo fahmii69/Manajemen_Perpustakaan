@@ -30,9 +30,9 @@ class BukuSeeder extends Seeder
                     'kategori'     => KategoriBuku::get()->random()->nama_kategori,
                     'penerbit'     => PenerbitBuku::get()->random()->nama_penerbit,
                     'tahun_terbit' => $faker->date("Y"),
-                    'isbn'         => $faker->unique()->randomNumber(4,true),
-                    'jumlah_buku'  => $faker->randomNumber(2,false),
-                    'rak_buku'     => $faker->randomDigitNotNull(),
+                    'isbn'         => $faker->unique()->randomNumber(4, true),
+                    'jumlah_buku'  => $faker->randomNumber(2, false),
+                    'rak_buku'     => $faker->unique()->word(),
                     'created_at'   => now()->toDateTimeString(),
                     'updated_at'   => now()->toDateTimeString(),
                 ]

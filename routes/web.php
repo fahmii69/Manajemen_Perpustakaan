@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Buku\BukuController;
 use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
 use App\Http\Controllers\Siswa\SiswaController;
@@ -38,3 +39,6 @@ Route::resource('/penerbit', PenerbitBukuController::class);
 
 Route::get('/kategori/get', [KategoriBukuController::class, 'getKategori'])->name('kategori.list');
 Route::resource('/kategori', KategoriBukuController::class);
+
+Route::get('/buku/get', [BukuController::class, 'getBuku'])->name('buku.list');
+Route::resource('/buku', BukuController::class);

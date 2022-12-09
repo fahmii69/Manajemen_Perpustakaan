@@ -31,7 +31,6 @@ class PenerbitBukuController extends Controller
      * Get data from Database for Datatable
      *
      * @param Request $request
-     * @return DataTables
      */
     public function getPenerbit(Request $request)
     {

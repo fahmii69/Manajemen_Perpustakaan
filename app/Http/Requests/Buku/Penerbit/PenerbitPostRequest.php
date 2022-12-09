@@ -26,7 +26,7 @@ class PenerbitPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode_penerbit' => ['required', Rule::unique(PenerbitBuku::class, 'kode_penerbit')],
+            'kode_penerbit' => ['required', Rule::unique('penerbit_bukus', 'kode_penerbit')],
             'nama_penerbit' => 'required',
         ];
     }
