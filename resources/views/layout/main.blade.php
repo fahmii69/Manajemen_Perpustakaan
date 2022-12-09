@@ -96,7 +96,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="utilities-color.html">Data Buku</a>
-                        <a class="collapse-item" href="{{ route('kategori.index') }}">Kategori Buku</a>
+                        {{-- <a class="collapse-item" href="{{ route('kategori.index') }}">Kategori Buku</a> --}}
                     </div>
                 </div>
             </li>
