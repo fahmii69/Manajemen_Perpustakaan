@@ -1,4 +1,4 @@
-<form action="{{ route('siswa.edit',$data->id) }}">
+<form action="{{ route('penerbit.edit',$data->id) }}">
     @method('patch')
     @csrf
     <button type="submit" class="btn btn-success btn-sm tombol-edit">Edit</button>

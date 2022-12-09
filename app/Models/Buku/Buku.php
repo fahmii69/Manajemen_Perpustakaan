@@ -4,6 +4,7 @@ namespace App\Models\Buku;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Buku extends Model
 {
@@ -18,14 +19,13 @@ class Buku extends Model
         'rak_buku',
     ];
 
-    public function namaKategori()
+    public function namaKategori(): BelongsTo
     {
-        return $this->belongsTo(KategoriBuku::class,'kategori');
+        return $this->belongsTo(KategoriBuku::class, 'kategori');
     }
 
-    public function namaPenerbit()
+    public function namaPenerbit(): BelongsTo
     {
-        return $this->belongsTo(PenerbitBuku::class,'penerbit');
+        return $this->belongsTo(PenerbitBuku::class, 'penerbit');
     }
-
 }

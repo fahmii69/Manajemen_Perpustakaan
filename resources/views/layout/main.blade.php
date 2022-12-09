@@ -78,7 +78,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="{{ route('siswa.index') }}">Data Siswa</a>
-                        <a class="collapse-item" href="utilities-border.html">Data Penerbit</a>
+                        <a class="collapse-item" href="{{ route('penerbit.index') }}">Data Penerbit</a>
                         <a class="collapse-item" href="utilities-animation.html">Administrator</a>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="utilities-color.html">Data Buku</a>
-                        <a class="collapse-item" href="utilities-border.html">Katalog Buku</a>
+                        <a class="collapse-item" href="{{ route('kategori.index') }}">Kategori Buku</a>
                     </div>
                 </div>
             </li>
@@ -229,8 +229,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-
+                
                 <!-- Begin Page Content -->
                 @yield('content')
                 <!-- /.container-fluid -->

@@ -1,25 +1,33 @@
 @extends('layout.main')
 
-@section('title','Perpustakaan Zoel')
+@section('title','Data Penerbit')
 
 @section('content')
 
-    <!-- Begin Page Content -->
+<!-- Begin Page Content -->
 <div class="container-fluid">
     <i class="fas fa-clock">
-        <span class="h3 mb-4 text-gray-800">Data Siswa</span>
+        <span class="h3 mb-4 text-gray-800">Data Penerbit</span>
     </i>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <a href="{{ route('penerbit.create') }}" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-user-plus"></i>
+                </span>
+                <span class="text">Tambah Penerbit Buku</span>
+            </a>
+            <br>
+            @include('sweetalert::alert')
+        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="siswa-dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="penerbit-dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>NISN</th>
-                            <th>Nama</th>
-                            <th>Tgl.Lahir</th>
-                            <th>Kelas</th>
-                            <th>Jenis Kelamin</th>
+                            <th>Kode Penerbit</th>
+                            <th>Nama Penerbit</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,31 +37,38 @@
             </div>
         </div>
     </div>
-    @endsection
-    
-    @section('script')
-    @include('layout.script');
-    <script>
+</div>
+@endsection
+
+@section('script')
+@include('layout.script');
+<script>
     $(document).ready(function () {
-        var table = $('#siswa-dataTable').DataTable({
+        var table = $('#penerbit-dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('siswa.list')}}",
+            ajax: "{{route('penerbit.list')}}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
                     searchable: false,
                 },
-                { data: 'nisn', name: 'nisn' },
-                { data: 'nama',name: 'nama'},
-                { data: 'tgl_lahir', name: 'tgl_lahir'},
-                { data: 'kelas', name: 'kelas'},
-                { data: 'jenis_kelamin', name: 'jenis_kelamin'},
-                { data: 'aksi', name: 'aksi'},
+                {
+                    data: 'kode_penerbit',
+                    name: 'kode_penerbit'
+                },
+                {
+                    data: 'nama_penerbit',
+                    name: 'nama_penerbit'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi'
+                },
             ]
         });
-
+        
         $(document).on('click', '.btn-delete', function () {
             let id = $(this).data('id');
 
@@ -73,8 +88,8 @@
         }).then(function (e) {
             if (e.value === true) {
                 let token = $('meta[name="csrf-token"]').attr('content');
-                var _url = `/siswa/${id}`;
-                
+                var _url = `/penerbit/${id}`;
+
                 $.ajax({
                     type: 'delete',
                     url: _url,
@@ -117,6 +132,5 @@
             return false;
         })
     }
-    </script>
-    @endsection
-
+</script>
+@endsection

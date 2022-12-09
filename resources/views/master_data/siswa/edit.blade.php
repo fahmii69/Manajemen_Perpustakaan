@@ -1,16 +1,16 @@
 @extends('layout/main')
 
-@section('title','Pegawai | Update Data')
+@section('title','Pegawai | Update Data Siswa')
 
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Form Update Data Pegawai Laravel</h1>
+    <h1 class="h3 mb-4 text-gray-800">Form Update Data Siswa</h1>
     <!-- Basic Card Example -->
     <div class="card shadow mb-4 col-6">
         <div class="card-body">
-            <form method="post" action="/siswa/edit/{{ $siswa->id }}">
+            <form method="post" action="{{ route('siswa.update',$siswa->id) }}">
                 @method('patch')
                 @csrf
                 <div class="form-group row">
@@ -109,7 +109,6 @@
         $('.kelas').select2();
         $('.jenis_kelamin').select2();
     });
-
 </script>
 <!-- /.container-fluid -->
 @endsection

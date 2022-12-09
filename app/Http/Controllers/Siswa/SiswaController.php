@@ -6,43 +6,42 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Siswa\SiswaEditRequest;
 use App\Http\Requests\Siswa\SiswaPostRequest;
 use App\Models\Siswa;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class SiswaController extends Controller
 {
-    // status message ganti dengan sweetalert2
-    public function index()
+    /**
+     * Dashboard Page Index.
+     *
+     * @return View
+     */
+    public function index(): View
     {
         return view('index');
     }
 
-    public function indexSiswa()
+    /**
+     * Siswa Page Index.
+     *
+     * @return View
+     */
+    public function indexSiswa(): View
     {
         return view('master_data.siswa.index');
     }
 
-    public function create()
-    {
-        $kelas = ['a', 'b', 'c', 'd','e'];
-        $jenis_kelamin = ['Laki - Laki', 'Perempuan'];
-        
-        return view('master_data.siswa.create',['kelas' => $kelas, 'jenis_kelamin' => $jenis_kelamin]);
-    }
-
-    public function edit(Siswa $siswa)
-    {
-        $kelas         = ['a', 'b', 'c', 'd','e'];
-        $jenis_kelamin = ['Laki - Laki', 'Perempuan'];
-        
-        return view('master_data.siswa.edit',[
-            'kelas' => $kelas, 
-            'siswa' => $siswa, 
-            'jenis_kelamin' => $jenis_kelamin]
-        );
-    }
-
+    /**
+     * Get Data from Database for Datatable.
+     *
+     * @param Request $request
+     * @return DataTables
+     */
     public function getSiswa(Request $request)
     {
         if ($request->ajax()) {
@@ -56,37 +55,91 @@ class SiswaController extends Controller
         }
     }
 
-    public function store(SiswaPostRequest $request ) 
+    /**
+     * Tambah data Page
+     *
+     * @return View
+     */
+    public function create(): View
+    {
+        $kelas = ['a', 'b', 'c', 'd', 'e'];
+        $jenis_kelamin = ['Laki - Laki', 'Perempuan'];
+
+        return view('master_data.siswa.create', ['kelas' => $kelas, 'jenis_kelamin' => $jenis_kelamin]);
+    }
+
+    /**
+     * store data to database.
+     *
+     * @param SiswaPostRequest $request
+     * @return RedirectResponse
+     */
+    public function store(SiswaPostRequest $request): RedirectResponse
     {
         DB::transaction(function () use ($request) {
 
             $siswa = new Siswa($request->safe(
-                ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat','jenis_kelamin']
+                ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin']
             ));
 
             $siswa->save();
         });
-        return redirect('/siswa')->with('status', 'Data Pegawai berhasil DITAMBAHKAN.');
-        ;
+        Alert::success('Success', 'Data Siswa Berhasil Didaftarkan !!!');
+        return redirect('/siswa');
     }
 
-    public function update(SiswaEditRequest $request, Siswa $siswa ) 
+    /**
+     * Edit data Page.
+     *
+     * @param Siswa $siswa
+     * @return View
+     */
+    public function edit(Siswa $siswa): View
     {
-        DB::transaction(function () use ($request,$siswa) {
+        $kelas         = ['a', 'b', 'c', 'd', 'e'];
+        $jenis_kelamin = ['Laki - Laki', 'Perempuan'];
 
-            $siswa ->fill($request->safe(
-                ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat','jenis_kelamin']
-            ));    
+        return view(
+            'master_data.siswa.edit',
+            [
+                'kelas' => $kelas,
+                'siswa' => $siswa,
+                'jenis_kelamin' => $jenis_kelamin
+            ]
+        );
+    }
+
+    /**
+     * Update data from database.
+     *
+     * @param SiswaEditRequest $request
+     * @param Siswa $siswa
+     * @return RedirectResponse
+     */
+    public function update(SiswaEditRequest $request, Siswa $siswa): RedirectResponse
+    {
+        DB::transaction(function () use ($request, $siswa) {
+
+            $siswa->fill($request->safe(
+                ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin']
+            ));
             $siswa->saveOrFail();
         });
-        return redirect('/siswa')->with('status', 'Data Pegawai berhasil DITAMBAHKAN.');
-        ;
+        Alert::success('Success', 'Data Siswa Berhasil DiUpdate !!!');
+
+        return redirect('/siswa');
     }
 
-    public function destroy(Siswa $siswa)
+    /**
+     * Delete data.
+     *
+     * @param Siswa $siswa
+     * @return JsonResponse
+     */
+    public function destroy(Siswa $siswa): JsonResponse
     {
         Siswa::destroy($siswa->id);
 
-        return response()->json(['success' => true, 'message' => 'Data Pegawai berhasil DIHAPUS']);
+        return response()->json(['success' => true, 'message' => 'Data Siswa berhasil DIHAPUS']);
     }
 }

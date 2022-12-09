@@ -33,8 +33,8 @@ class BukuSeeder extends Seeder
                     'isbn'         => $faker->unique()->randomNumber(4,true),
                     'jumlah_buku'  => $faker->randomNumber(2,false),
                     'rak_buku'     => $faker->randomDigitNotNull(),
-                    'created_at'   => now(),
-                    'updated_at'   => now()
+                    'created_at'   => now()->toDateTimeString(),
+                    'updated_at'   => now()->toDateTimeString(),
                 ]
             );
         }
