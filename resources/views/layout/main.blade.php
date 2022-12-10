@@ -111,8 +111,8 @@
                 <div id="collapseTransaksi" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="utilities-color.html">Peminjaman</a>
-                        <a class="collapse-item" href="utilities-border.html">Data Peminjaman</a>
+                        <a class="collapse-item" href="{{ route('peminjaman.create') }}">Peminjaman</a>
+                        <a class="collapse-item" href="{{ route('peminjaman.index') }}">Data Peminjaman</a>
                         <a class="collapse-item" href="utilities-animation.html">Data Pengembalian</a>
                     </div>
                 </div>

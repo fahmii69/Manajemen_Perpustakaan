@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('detail_bukus', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_peminjaman')->constrained('peminjaman_bukus');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('detail_bukus');
     }
 };

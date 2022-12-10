@@ -4,6 +4,7 @@ use App\Http\Controllers\Buku\BukuController;
 use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
 use App\Http\Controllers\Siswa\SiswaController;
+use App\Http\Controllers\Transaksi\PeminjamanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,3 +43,6 @@ Route::resource('/kategori', KategoriBukuController::class);
 
 Route::get('/buku/get', [BukuController::class, 'getBuku'])->name('buku.list');
 Route::resource('/buku', BukuController::class);
+
+Route::get('/peminjaman/get', [PeminjamanController::class, 'getPeminjaman'])->name('peminjaman.list');
+Route::resource('/peminjaman', PeminjamanController::class);
