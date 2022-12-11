@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
 <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -19,8 +19,7 @@
                 <div class="form-group row">
                     <label for="No. Pinjam" class="col-sm-4 col-form-label">No. Pinjam</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="No. Pinjam"
-                            name="No. Pinjam" readonly>
+                        <input type="text" class="form-control" id="No. Pinjam" name="No. Pinjam" readonly>
                     </div>
                 </div>
 
@@ -29,7 +28,7 @@
                         <label for="nama_siswa">Nama nama_siswa</label>
                     </div>
                     <div class="col-md-8">
-                        <select class="siswa form-control" name="nama_siswa" >
+                        <select class="siswa form-control" name="nama_siswa">
                             @forelse ($siswa as $v)
                             <option value="" selected>-- Pilih Nama Siswa --</option>
                             <option value="{{ $v->nama }}">{{ $v->nama }}</option>
@@ -44,7 +43,7 @@
                         <label for="judul">Judul Buku</label>
                     </div>
                     <div class="col-md-8">
-                        <select class="judul form-control" name="buku_id" >
+                        <select class="judul form-control" name="buku_id">
                             @forelse ($judul as $v)
                             <option value="" selected>-- Pilih Judul Buku --</option>
                             <option value="{{ $v->id }}">{{ $v->judul }}</option>
@@ -57,8 +56,8 @@
                 <div class="form-group row">
                     <label for="tgl_pinjam" class="col-sm-4 col-form-label">Tanggal Pinjam</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control @error('tgl_pinjam') is-invalid @enderror" id="tgl_pinjam"
-                            name="tgl_pinjam" readonly value="{{ date('Y-m-d')}}">
+                        <input type="date" class="form-control @error('tgl_pinjam') is-invalid @enderror"
+                            id="tgl_pinjam" name="tgl_pinjam" readonly value="{{ date('Y-m-d')}}">
                         @error('tgl_pinjam')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -68,8 +67,9 @@
                 <div class="form-group row">
                     <label for="tgl_kembali" class="col-sm-4 col-form-label">Tanggal Kembali</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control @error('tgl_kembali') is-invalid @enderror" id="tgl_kembali"
-                            name="tgl_kembali" readonly value="{{ date('Y-m-d', strtotime('+1 week'))}}">
+                        <input type="date" class="form-control @error('tgl_kembali') is-invalid @enderror"
+                            id="tgl_kembali" name="tgl_kembali" readonly
+                            value="{{ date('Y-m-d', strtotime('+1 week'))}}">
                         @error('tgl_kembali')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

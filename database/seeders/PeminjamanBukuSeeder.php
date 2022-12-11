@@ -29,6 +29,7 @@ class PeminjamanBukuSeeder extends Seeder
                     'buku_id'     => Buku::get()->random()->id,
                     'tgl_pinjam'  => $faker->date(),
                     'tgl_kembali' => $faker->dateTimeInInterval('+1 week'),
+                    'status'      => $faker->boolean(),
                     'created_at'  => now()->toDateTimeString(),
                     'updated_at'  => now()->toDateTimeString(),
                 ]

@@ -32,6 +32,7 @@
         </div>
     </div>
 </div>
+@include('data_transaksi.peminjaman.modal')
 @endsection
 
 @section('script')
@@ -63,7 +64,9 @@
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    'render': function (data,type,row){
+                    return (data == true) ? 'Ntaps' : 'belum'
+                    }
                 },
                 {
                     data: 'aksi',
@@ -71,6 +74,50 @@
                 },
             ]
         });
+
+    // 03_PROSES EDIT 
+    $('body').on('click', '.tombol-edit', function(e) {
+        var id = $(this).data('id');
+        // var url =  'peminjaman/' + id + '/edit';
+        // console.log(url);
+
+        $.ajax({
+            url: 'peminjaman/' + id + '/edit',
+            type: 'GET',
+            cache: false,
+            // error: console.error,
+            success: function(response) {
+                $('#exampleModal').modal('show');
+                console.log(response.id);
+                $('#id').val(response.id);
+                $('#buku_id').val(response.buku_id);
+                $('#nama_siswa').val(response.nama_siswa);
+                $('#tgl_pinjam').val(response.tgl_pinjam);
+                $('#tgl_kembali').val(response.tgl_kembali);
+
+                $('.tombol-simpan').click(function() {
+                });
+            },
+            error: function (response) {
+                        swal.fire("Error!", 'Something went wrong.', "error");
+                    }
+        });
+    });
+
+    $('#exampleModal').on('hidden.bs.modal', function() {
+        $('#id').val('');
+                $('#buku_id').val('');
+                $('#nama_siswa').val('');
+                $('#tgl_pinjam').val('');
+                $('#tgl_kembali').val('');
+
+        $('.alert-danger').addClass('d-none');
+        $('.alert-danger').html('');
+
+        $('.alert-success').addClass('d-none');
+        $('.alert-success').html('');
+    });
+        
         
         $(document).on('click', '.btn-delete', function () {
             let id = $(this).data('id');
@@ -81,7 +128,7 @@
 
     function deleteConfirmation(id, table) {
         swal.fire({
-            title: "Hapus?",
+            title: "Perpanjang Durasi Peminjaman buku?",
             icon: 'question',
             text: "Kamuuuh Yakin??!!!",
             showCancelButton: !0,

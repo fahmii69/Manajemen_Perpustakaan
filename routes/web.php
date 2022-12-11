@@ -45,4 +45,5 @@ Route::get('/buku/get', [BukuController::class, 'getBuku'])->name('buku.list');
 Route::resource('/buku', BukuController::class);
 
 Route::get('/peminjaman/get', [PeminjamanController::class, 'getPeminjaman'])->name('peminjaman.list');
+Route::get('/peminjaman/{peminjaman}/update', [PeminjamanController::class, 'getEdit']);
 Route::resource('/peminjaman', PeminjamanController::class);

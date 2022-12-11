@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('buku_id')->constrained('bukus');
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');
-            $table->string('status')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }

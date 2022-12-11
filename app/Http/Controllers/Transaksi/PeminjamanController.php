@@ -8,6 +8,7 @@ use App\Models\Buku\Buku;
 use App\Models\Siswa;
 use App\Models\Transaksi\PeminjamanBuku;
 use DB;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -80,7 +81,7 @@ class PeminjamanController extends Controller
             Buku::where('id', $request->buku_id)->update(['jumlah_buku' => $total]);
         });
 
-        Alert::success('Success', 'Data Buku yang dipinjamkan Berhasil Didaftarkan !!!');
+        Alert::success('Success', 'Data Buku Yang Dipinjamkan Berhasil Didaftarkan !!!');
         return redirect('/peminjaman');
     }
 
@@ -90,7 +91,7 @@ class PeminjamanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
     }
@@ -99,11 +100,18 @@ class PeminjamanController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function edit($id)
+    public function edit(PeminjamanBuku $employee): JsonResponse
     {
-        //
+
+        return response()->json($employee);
+    }
+
+    public function getEdit(PeminjamanBuku $employee): JsonResponse
+    {
+
+        return response()->json($employee);
     }
 
     /**
