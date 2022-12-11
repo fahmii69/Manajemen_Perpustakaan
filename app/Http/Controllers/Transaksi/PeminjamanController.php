@@ -37,6 +37,9 @@ class PeminjamanController extends Controller
             $data = PeminjamanBuku::latest('id');
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('bukus', function ($data) {
+                    return $data->getJudul->judul;
+                })
                 ->addColumn('aksi', function ($data) {
                     return view('data_transaksi.peminjaman.tombol', compact('data'));
                 })
@@ -71,20 +74,13 @@ class PeminjamanController extends Controller
             ));
             $peminjaman->save();
 
-            $peminjaman = Buku::where('id')->select('jumlah_buku')->get();
+            $jml_buku = Buku::where('id', '=', $request->buku_id)->select('jumlah_buku')->get();
+            $total = $jml_buku[0]->jumlah_buku - 1;
 
-            // ->update([
-            //     'jumlah_buku' => ($peminjaman->getBbuku->jumlah_buku - 1),
-            // ]);
-
-
-            // $peminjaman = Buku::find('id', $peminjaman->getJudul->id);
-            // dd($peminjaman);
-            // ->update([
-            //     'jumlah_buku' => ($peminjaman->Buku->jumlah_buku - 1),
-            // ]);
+            Buku::where('id', $request->buku_id)->update(['jumlah_buku' => $total]);
         });
-        Alert::success('Success', 'Data Buku yang dipinjamkans Berhasil Didaftarkan !!!');
+
+        Alert::success('Success', 'Data Buku yang dipinjamkan Berhasil Didaftarkan !!!');
         return redirect('/peminjaman');
     }
 

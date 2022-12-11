@@ -1,6 +1,7 @@
 <form action="{{ route('peminjaman.edit',$data->id) }}">
     @method('patch')
     @csrf
-    <button type="submit" class="btn btn-success btn-sm tombol-edit">Edit</button>
+    <button type="submit" class="btn btn-warning btn-sm tombol-edit">Perpanjang</button>
 </form>
-<a href='#' data-id="{{ $data->id }}" class="btn btn-danger btn-sm btn-delete">Del</a>
+<br>
+<a href='#' data-id="{{ $data->id }}" class="btn btn-success btn-sm btn-delete">Pengembalian</a>

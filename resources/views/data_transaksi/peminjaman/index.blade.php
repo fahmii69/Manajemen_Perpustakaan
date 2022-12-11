@@ -48,10 +48,7 @@
                     orderable: false,
                     searchable: false,
                 },
-                {
-                    data: 'judul',
-                    name: 'judul'
-                },
+                {data: 'bukus', name: 'getJudul.judul'},
                 {
                     data: 'nama_siswa',
                     name: 'nama_siswa'
