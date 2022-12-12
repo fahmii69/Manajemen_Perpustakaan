@@ -45,5 +45,8 @@ Route::get('/buku/get', [BukuController::class, 'getBuku'])->name('buku.list');
 Route::resource('/buku', BukuController::class);
 
 Route::get('/peminjaman/get', [PeminjamanController::class, 'getPeminjaman'])->name('peminjaman.list');
-Route::get('/peminjaman/{peminjaman}/update', [PeminjamanController::class, 'getEdit']);
+Route::get('/peminjaman/getReturn', [PeminjamanController::class, 'getPengembalian'])->name('pengembalian');
+Route::get('/peminjaman/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('peminjaman.pengembalian');
+
+Route::patch('/peminjaman/{peminjaman}/return', [PeminjamanController::class, 'pengembalianBuku'])->name('peminjaman.return');
 Route::resource('/peminjaman', PeminjamanController::class);

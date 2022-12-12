@@ -4,7 +4,7 @@ namespace App\Http\Requests\Transaksi;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PeminjamanPostRequest extends FormRequest
+class PeminjamanEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class PeminjamanPostRequest extends FormRequest
             'buku_id' => 'required',
             'nama_siswa' => 'required',
             'tgl_pinjam' => 'required',
-            'tgl_kembali' => 'required',
+            'tgl_kembali' => 'required|date|after:today',
         ];
     }
 
@@ -39,10 +39,11 @@ class PeminjamanPostRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'buku_id.required'     => '*Judul wajib diisi !',
+            'buku_id.required'     => '*judul wajib diisi !',
             'nama_siswa.required'  => '*Nama wajib diisi !.',
-            'tgl_pinjam.required'  => '*tgl_pinjam wajib diisi !',
-            'tgl_kembali.required' => '*tgl_kembali wajib diisi !',
+            'tgl_pinjam.required'  => '*Tanggal Peminjaman wajib diisi !',
+            'tgl_kembali.required' => '*Tanggal kembali wajib diisi !',
+            'tgl_kembali.after'    => '* Tanggal Pengembalian harus lebih lama dari hari ini !',
         ];
     }
 }

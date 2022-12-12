@@ -49,7 +49,10 @@
                     orderable: false,
                     searchable: false,
                 },
-                {data: 'bukus', name: 'getJudul.judul'},
+                {
+                    data: 'bukus',
+                    name: 'getJudul.judul'
+                },
                 {
                     data: 'nama_siswa',
                     name: 'nama_siswa'
@@ -64,9 +67,7 @@
                 },
                 {
                     data: 'status',
-                    'render': function (data,type,row){
-                    return (data == true) ? 'Ntaps' : 'belum'
-                    }
+                    name: 'status'
                 },
                 {
                     data: 'aksi',
@@ -75,73 +76,88 @@
             ]
         });
 
-    // 03_PROSES EDIT 
-    $('body').on('click', '.tombol-edit', function(e) {
-        var id = $(this).data('id');
-        // var url =  'peminjaman/' + id + '/edit';
-        // console.log(url);
-
-        $.ajax({
-            url: 'peminjaman/' + id + '/edit',
-            type: 'GET',
-            cache: false,
-            // error: console.error,
-            success: function(response) {
-                $('#exampleModal').modal('show');
-                console.log(response.id);
-                $('#id').val(response.id);
-                $('#buku_id').val(response.buku_id);
-                $('#nama_siswa').val(response.nama_siswa);
-                $('#tgl_pinjam').val(response.tgl_pinjam);
-                $('#tgl_kembali').val(response.tgl_kembali);
-
-                $('.tombol-simpan').click(function() {
-                });
-            },
-            error: function (response) {
-                        swal.fire("Error!", 'Something went wrong.', "error");
-                    }
-        });
-    });
-
-    $('#exampleModal').on('hidden.bs.modal', function() {
-        $('#id').val('');
-                $('#buku_id').val('');
-                $('#nama_siswa').val('');
-                $('#tgl_pinjam').val('');
-                $('#tgl_kembali').val('');
-
-        $('.alert-danger').addClass('d-none');
-        $('.alert-danger').html('');
-
-        $('.alert-success').addClass('d-none');
-        $('.alert-success').html('');
-    });
-        
-        
-        $(document).on('click', '.btn-delete', function () {
+        // 03_PROSES EDIT 
+        $('body').on('click', '.tombol-edit', function (e) {
             let id = $(this).data('id');
+            $.ajax({
+                url: 'peminjaman/' + id + '/edit',
+                type: 'GET',
+                success: function (response) {
+                    $('#exampleModal').modal('show');
+                    $('#id').val(response.id);
+                    $('#buku_id').val(response.buku_id);
+                    $('#nama_siswa').val(response.nama_siswa);
+                    $('#tgl_pinjam').val(response.tgl_pinjam);
+                    $('#tgl_kembali').val(response.tgl_kembali);
+                    $('.tombol-simpan').click(function () {
 
-            deleteConfirmation(id, table);
+                        var var_url = 'peminjaman/' + id;
+                        var var_type = 'PATCH';
+                        $.ajax({
+                            url: var_url,
+                            type: var_type,
+                            data: {
+                                buku_id: $('#buku_id').val(),
+                                nama_siswa: $('#nama_siswa').val(),
+                                tgl_pinjam: $('#tgl_pinjam').val(),
+                                tgl_kembali: $('#tgl_kembali').val(),
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    swal.fire("Done!", response.message,
+                                        "success");
+                                    $('#exampleModal').modal('hide');
+                                    table.ajax.reload();
+                                } else {
+                                    swal.fire("Error!",
+                                        'Something went wrong.',
+                                        "error");
+                                }
+                            },
+                            error: function (response) {
+                                $('.alert-danger').removeClass(
+                                'd-none');
+                                $('.alert-danger').html("<ul>");
+                                $.each(response.responseJSON.errors,
+                                    function (key, value) {
+                                        $('.alert-danger').find(
+                                            'ul').append(
+                                            "<li>" + value +
+                                            "</li>");
+                                    });
+                                $('.alert-danger').append("</ul>");
+                            },
+                        });
+                    });
+                },
+                error: function (response) {
+                    swal.fire("Error!", 'Something went wrong.', "error");
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-return', function () {
+            let id = $(this).data('id');
+            returnConfirmation(id, table);
         })
     });
 
-    function deleteConfirmation(id, table) {
+    function returnConfirmation(id, table) {
         swal.fire({
-            title: "Perpanjang Durasi Peminjaman buku?",
+            title: "Sudah di cek kondisi buku ?",
             icon: 'question',
             text: "Kamuuuh Yakin??!!!",
             showCancelButton: !0,
-            confirmButtonText: "Iya, Hapus!",
+            confirmButtonText: "Iya!",
             cancelButtonText: "No, cancel!",
             reverseButtons: !0
         }).then(function (e) {
             if (e.value === true) {
                 let token = $('meta[name="csrf-token"]').attr('content');
-                var _url = `/peminjaman/${id}`;
+                var _url = `/peminjaman/${id}/return`;
 
                 $.ajax({
-                    type: 'delete',
+                    type: 'patch',
                     url: _url,
                     data: {
                         _token: token
@@ -167,6 +183,8 @@
                                 icon: 'success',
                                 title: 'Signed in successfully'
                             })
+                        }else{
+                            swal.fire("Error!", resp.message, "error");
                         }
                     },
                     error: function (resp) {
@@ -182,5 +200,6 @@
             return false;
         })
     }
+
 </script>
 @endsection

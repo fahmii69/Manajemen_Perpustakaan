@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Transaksi\PeminjamanEditRequest;
 use App\Http\Requests\Transaksi\PeminjamanPostRequest;
 use App\Models\Buku\Buku;
 use App\Models\Siswa;
 use App\Models\Transaksi\PeminjamanBuku;
+use Carbon\Carbon;
 use DB;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,6 +31,33 @@ class PeminjamanController extends Controller
     }
 
     /**
+     * Page index
+     *
+     * @return View
+     */
+    public function pengembalian(): View
+    {
+
+        return view('data_transaksi.peminjaman.pengembalian');
+    }
+
+    public function getPengembalian(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = PeminjamanBuku::whereStatus('Dikembalikan')->with('getJudul')->latest('updated_at');
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('bukus', function ($data) {
+                    return $data->getJudul->judul;
+                })
+                ->editColumn('updated_at', function ($data) {
+                    return Carbon::parse($data->updated_at)->format('Y-m-d');
+                })
+                ->make(true);
+        }
+    }
+
+    /**
      * get data from database for datatable.
      *
      * @param Request $request
@@ -35,7 +65,9 @@ class PeminjamanController extends Controller
     public function getPeminjaman(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeminjamanBuku::latest('id');
+            // $data = PeminjamanBuku::whereStatus('');
+
+            $data = PeminjamanBuku::whereStatus('Sedang dipinjam')->with('getJudul')->latest('id');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('bukus', function ($data) {
@@ -73,27 +105,16 @@ class PeminjamanController extends Controller
             $peminjaman = new PeminjamanBuku($request->safe(
                 ['buku_id', 'nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
             ));
+            $peminjaman->status = 'Sedang Dipinjam';
             $peminjaman->save();
 
-            $jml_buku = Buku::where('id', '=', $request->buku_id)->select('jumlah_buku')->get();
+            $jml_buku = Buku::whereId($request->buku_id)->select('jumlah_buku')->get();
             $total = $jml_buku[0]->jumlah_buku - 1;
-
-            Buku::where('id', $request->buku_id)->update(['jumlah_buku' => $total]);
+            Buku::whereId($request->buku_id)->update(['jumlah_buku' => $total]);
         });
 
         Alert::success('Success', 'Data Buku Yang Dipinjamkan Berhasil Didaftarkan !!!');
         return redirect('/peminjaman');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
-    {
-        //
     }
 
     /**
@@ -102,16 +123,9 @@ class PeminjamanController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function edit(PeminjamanBuku $employee): JsonResponse
+    public function edit(PeminjamanBuku $peminjaman): JsonResponse
     {
-
-        return response()->json($employee);
-    }
-
-    public function getEdit(PeminjamanBuku $employee): JsonResponse
-    {
-
-        return response()->json($employee);
+        return response()->json($peminjaman);
     }
 
     /**
@@ -121,9 +135,16 @@ class PeminjamanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman)
     {
-        //
+        DB::transaction(function () use ($request, $peminjaman) {
+
+            $peminjaman->fill($request->safe(
+                ['buku_id', 'nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
+            ));
+            $peminjaman->update();
+        });
+        return response()->json(['success' => "Berhasil melakukan update data"]);
     }
 
     /**
@@ -132,8 +153,33 @@ class PeminjamanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function pengembalianBuku(Request $request, PeminjamanBuku $peminjaman)
     {
-        //
+        DB::beginTransaction();
+        $response = [
+            'success' => false
+        ];
+
+        try {
+            $peminjaman->updated_at = Carbon::now();
+            $total = getDenda($peminjaman);
+
+            $peminjaman->update(['denda' => $total, 'status' => 'Dikembalikan', 'updated_at' => Carbon::now()]);
+
+            $jml_buku = Buku::whereId($peminjaman->buku_id)->select('jumlah_buku')->get();
+            $total = $jml_buku[0]->jumlah_buku + 1;
+            Buku::whereId($peminjaman->buku_id)->update(['jumlah_buku' => $total]);
+
+            $response['success'] = true;
+            $response['message'] = "Berhasil dikembalikan";
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            $response['message'] = $e->getMessage();
+        }
+
+        DB::commit();
+
+        return response()->json($response);
     }
 }

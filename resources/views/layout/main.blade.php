@@ -113,7 +113,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('peminjaman.create') }}">Peminjaman</a>
                         <a class="collapse-item" href="{{ route('peminjaman.index') }}">Data Peminjaman</a>
-                        <a class="collapse-item" href="utilities-animation.html">Data Pengembalian</a>
+                        <a class="collapse-item" href="{{ route('peminjaman.pengembalian') }}">Data Pengembalian</a>
                     </div>
                 </div>
             </li>

@@ -15,30 +15,15 @@ return new class extends Migration
     {
         Schema::create('peminjaman_bukus', function (Blueprint $table) {
             $table->id();
-            // $table->integer('jumlah')->unsigned();
-            // $table->string('judul')->references('id')->constrained('bukus');
             $table->string('nama_siswa')->constrained('siswas');
             $table->foreignId('buku_id')->constrained('bukus');
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');
-            $table->boolean('status')->nullable();
+            $table->string('status')->nullable();
+            $table->integer('denda')->nullable();
             $table->timestamps();
         });
     }
-
-    // Schema::create('transaksi', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->string('kode_transaksi');
-    //     $table->date('tgl_pinjam');
-    //     $table->date('tgl_kembali');
-    //     $table->enum('status',['pinjam','kembali']);
-    //     $table->text('ket')->nullable();
-    //     $table->foreignId('anggota_id')->constrained('anggota');
-    //     $table->foreignId('buku_id')->constrained('buku');
-    //     $table->foreignId('user_id')->constrained('users');
-    //     $table->timestamps();
-    //     $table->softDeletes();
-    // });
 
     /**
      * Reverse the migrations.

@@ -36,14 +36,4 @@ class Buku extends Model
     {
         return $this->HasMany(Buku::class, 'buku_id');
     }
-
-    // public function getRouteKeyName()
-    // {
-    //     return 'buku_id';
-    // }
-
-    public function getBuku(): HasMany
-    {
-        return $this->HasMany(Buku::class);
-    }
 }

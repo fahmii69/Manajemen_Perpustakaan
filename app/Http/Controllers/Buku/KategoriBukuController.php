@@ -62,14 +62,19 @@ class KategoriBukuController extends Controller
      */
     public function store(KategoriPostRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-
+        DB::beginTransaction();
+        try {
             $kategori = new kategoriBuku($request->safe(
                 ['kode_kategori', 'nama_kategori']
             ));
 
             $kategori->save();
-        });
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
         Alert::success('Success', 'Kategori Buku Berhasil Didaftarkan !!!');
         return redirect('/kategori');
     }
@@ -94,15 +99,21 @@ class KategoriBukuController extends Controller
      */
     public function update(KategoriEditRequest $request, KategoriBuku $kategori): RedirectResponse
     {
-        DB::transaction(function () use ($request, $kategori) {
+        DB::beginTransaction();
+        try {
             $kategori->fill($request->safe(
                 ['kode_kategori', 'nama_kategori']
             ));
 
             $kategori->saveOrFail();
-        });
-        Alert::success('Success', 'Data kategori Berhasil DiUpdate !!!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
 
+        DB::commit();
+
+        Alert::success('Success', 'Data kategori Berhasil DiUpdate !!!');
         return redirect('/kategori');
     }
 

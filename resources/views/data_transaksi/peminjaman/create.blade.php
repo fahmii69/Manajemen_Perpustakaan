@@ -25,7 +25,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-4">
-                        <label for="nama_siswa">Nama nama_siswa</label>
+                        <label for="nama_siswa">Nama Siswa</label>
                     </div>
                     <div class="col-md-8">
                         <select class="siswa form-control" name="nama_siswa">

@@ -63,14 +63,19 @@ class PenerbitBukuController extends Controller
      */
     public function store(PenerbitPostRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-
+        DB::beginTransaction();
+        try {
             $penerbit = new PenerbitBuku($request->safe(
                 ['kode_penerbit', 'nama_penerbit']
             ));
 
             $penerbit->save();
-        });
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
         Alert::success('Success', 'Data Penerbir Berhasil Didaftarkan !!!');
         return redirect('/penerbit');
     }

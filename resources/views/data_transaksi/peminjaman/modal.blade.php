@@ -32,16 +32,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="tgl_pinjam" class="col-sm-4 col-form-label">tgl_pinjam</label>
+                    <label for="tgl_pinjam" class="col-sm-4 col-form-label">Tanggal Pinjam</label>
                     <div class="col-sm-8">
                         <input type="date" class="form-control" id="tgl_pinjam" name="tgl_pinjam" readonly>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="tgl_kembali" class="col-sm-4 col-form-label">tgl_kembali</label>
+                    <label for="tgl_kembali" class="col-sm-4 col-form-label">Tgl_Kembali</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control" id="tgl_kembali" name="tgl_kembali" readonly>
+                        <input type="date" class="form-control" id="tgl_kembali" name="tgl_kembali">
                     </div>
                 </div>
                 <!-- AKHIR FORM -->

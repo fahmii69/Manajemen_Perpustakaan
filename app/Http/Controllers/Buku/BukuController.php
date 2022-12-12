@@ -9,6 +9,7 @@ use App\Models\Buku\Buku;
 use App\Models\Buku\KategoriBuku;
 use App\Models\Buku\PenerbitBuku;
 use DB;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -66,14 +67,19 @@ class BukuController extends Controller
      */
     public function store(BukuPostRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-
+        DB::beginTransaction();
+        try {
             $buku = new Buku($request->safe(
                 ['judul', 'kategori', 'penerbit', 'pengarang', 'tahun_terbit', 'isbn', 'jumlah_buku', 'rak_buku']
             ));
 
             $buku->save();
-        });
+        } catch (Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
         Alert::success('Success', 'Data Buku Berhasil Didaftarkan !!!');
         return redirect('/buku');
     }
@@ -100,15 +106,20 @@ class BukuController extends Controller
      */
     public function update(BukuEditRequest $request, Buku $buku): RedirectResponse
     {
-        DB::transaction(function () use ($request, $buku) {
+        DB::beginTransaction();
+        try {
             $buku->fill($request->safe(
                 ['judul', 'kategori', 'penerbit', 'pengarang', 'tahun_terbit', 'isbn', 'jumlah_buku', 'rak_buku']
             ));
 
             $buku->saveOrFail();
-        });
-        Alert::success('Success', 'Data buku Berhasil DiUpdate !!!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
 
+        Alert::success('Success', 'Data buku Berhasil DiUpdate !!!');
         return redirect('/buku');
     }
 

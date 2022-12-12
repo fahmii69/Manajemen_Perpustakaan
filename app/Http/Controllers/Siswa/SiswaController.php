@@ -75,14 +75,19 @@ class SiswaController extends Controller
      */
     public function store(SiswaPostRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-
+        DB::beginTransaction();
+        try {
             $siswa = new Siswa($request->safe(
                 ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin']
             ));
 
             $siswa->save();
-        });
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
         Alert::success('Success', 'Data Siswa Berhasil Didaftarkan !!!');
         return redirect('/siswa');
     }
@@ -117,15 +122,20 @@ class SiswaController extends Controller
      */
     public function update(SiswaEditRequest $request, Siswa $siswa): RedirectResponse
     {
-        DB::transaction(function () use ($request, $siswa) {
-
+        DB::beginTransaction();
+        try {
             $siswa->fill($request->safe(
                 ['nisn', 'nama', 'kelas', 'tgl_lahir', 'alamat', 'jenis_kelamin']
             ));
-            $siswa->saveOrFail();
-        });
-        Alert::success('Success', 'Data Siswa Berhasil DiUpdate !!!');
 
+            $siswa->saveOrFail();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
+        Alert::success('Success', 'Data Siswa Berhasil DiUpdate !!!');
         return redirect('/siswa');
     }
 

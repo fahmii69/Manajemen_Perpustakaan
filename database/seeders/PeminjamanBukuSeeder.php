@@ -24,12 +24,11 @@ class PeminjamanBukuSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             PeminjamanBuku::insert(
                 [
-                    // 'judul'       => Buku::get()->random()->judul,
                     'nama_siswa'  => Siswa::get()->random()->nama,
                     'buku_id'     => Buku::get()->random()->id,
                     'tgl_pinjam'  => $faker->date(),
                     'tgl_kembali' => $faker->dateTimeInInterval('+1 week'),
-                    'status'      => $faker->boolean(),
+                    'status'      => $faker->randomElements(['Sedang dipinjam', 'Dikembalikan'])[0],
                     'created_at'  => now()->toDateTimeString(),
                     'updated_at'  => now()->toDateTimeString(),
                 ]
