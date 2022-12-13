@@ -7,6 +7,7 @@ use App\Http\Requests\Transaksi\PeminjamanEditRequest;
 use App\Http\Requests\Transaksi\PeminjamanPostRequest;
 use App\Models\Buku\Buku;
 use App\Models\Siswa;
+use App\Models\Transaksi\DetailPinjaman;
 use App\Models\Transaksi\PeminjamanBuku;
 use Carbon\Carbon;
 use DB;
@@ -27,6 +28,7 @@ class PeminjamanController extends Controller
      */
     public function index(): View
     {
+
         return view('data_transaksi.peminjaman.index');
     }
 
@@ -65,13 +67,11 @@ class PeminjamanController extends Controller
     public function getPeminjaman(Request $request)
     {
         if ($request->ajax()) {
-            // $data = PeminjamanBuku::whereStatus('');
-
-            $data = PeminjamanBuku::whereStatus('Sedang dipinjam')->with('getJudul')->latest('id');
+            $data = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->with('getDetail')->latest('id');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('bukus', function ($data) {
-                    return $data->getJudul->judul;
+                ->addColumn('detail_pinjaman', function ($data) {
+                    return $data->getDetail->pluck('judul_buku')->toArray();
                 })
                 ->addColumn('aksi', function ($data) {
                     return view('data_transaksi.peminjaman.tombol', compact('data'));
@@ -102,15 +102,45 @@ class PeminjamanController extends Controller
     {
         DB::transaction(function () use ($request) {
 
-            $peminjaman = new PeminjamanBuku($request->safe(
-                ['buku_id', 'nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
-            ));
-            $peminjaman->status = 'Sedang Dipinjam';
+            $peminjaman =
+                new PeminjamanBuku($request->safe(
+                    ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']
+                ));
+            $peminjaman->status = 'SEDANG_DIPINJAM';
             $peminjaman->save();
+            // $tes = PeminjamanBuku::create($peminjaman);
+            // dd($tes);
+            // dd($detail_peminjaman);
 
-            $jml_buku = Buku::whereId($request->buku_id)->select('jumlah_buku')->get();
-            $total = $jml_buku[0]->jumlah_buku - 1;
-            Buku::whereId($request->buku_id)->update(['jumlah_buku' => $total]);
+            // foreach($request->id_buku as $buku) {
+            // Detail::wherePeminjamanId($id)->delete();
+
+            // $oldDetail = select detail where peminjaman id = 1
+
+            // foreach(detail){
+            //     $buku = buku::find(detail)
+
+            //     $buku->stok += 1;
+
+            //     $buku->save();
+            // }
+
+            // Detail::wherePeminjamanId($id)->delete();
+            foreach ($request->daftar_buku as $buku_id) {
+                $buku       = Buku::find($buku_id);
+                $buku->jumlah_buku = $buku->jumlah_buku - 1;
+                $buku->update();
+
+                DetailPinjaman::create([
+                    'buku_id' => $buku_id,
+                    // 'peminjaman_id' => $getDetail->id,
+
+                ]);
+            }
+
+            // $jml_buku = Buku::whereId($request->buku_id)->select('jumlah_buku')->get();
+            // $total = $jml_buku[0]->jumlah_buku - 1;
+            // Buku::whereId($request->buku_id)->update(['jumlah_buku' => $total]);
         });
 
         Alert::success('Success', 'Data Buku Yang Dipinjamkan Berhasil Didaftarkan !!!');

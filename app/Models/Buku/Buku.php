@@ -2,6 +2,7 @@
 
 namespace App\Models\Buku;
 
+use App\Models\Transaksi\PeminjamanDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,10 @@ class Buku extends Model
 
     public function getJudul(): HasMany
     {
-        return $this->HasMany(Buku::class, 'buku_id');
+        return $this->HasMany(PeminjamanDetail::class, 'buku_id');
+    }
+    public function getBuku(): HasMany
+    {
+        return $this->HasMany(PeminjamanBuku::class, 'buku_id');
     }
 }

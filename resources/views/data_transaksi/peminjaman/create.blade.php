@@ -11,11 +11,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Form Tambah Data Peminjaman</h1>
-    <!-- Basic Card Example -->
     <div class="card shadow mb-4 col-6">
         <div class="card-body">
             <form method="post" action="{{ route('peminjaman.store') }}">
                 @csrf
+                {{-- <input type="hidden" name="buku_id" value="1"> --}}
                 <div class="form-group row">
                     <label for="No. Pinjam" class="col-sm-4 col-form-label">No. Pinjam</label>
                     <div class="col-sm-8">
@@ -32,21 +32,6 @@
                             @forelse ($siswa as $v)
                             <option value="" selected>-- Pilih Nama Siswa --</option>
                             <option value="{{ $v->nama }}">{{ $v->nama }}</option>
-                            @empty
-                            @endforelse
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-4">
-                        <label for="judul">Judul Buku</label>
-                    </div>
-                    <div class="col-md-8">
-                        <select class="judul form-control" name="buku_id">
-                            @forelse ($judul as $v)
-                            <option value="" selected>-- Pilih Judul Buku --</option>
-                            <option value="{{ $v->id }}">{{ $v->judul }}</option>
                             @empty
                             @endforelse
                         </select>
@@ -75,6 +60,27 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="form-group" id="addJudulBuku">
+                    <div class="containerJudulBuku row">
+                        <div class="col-md-4">
+                            <label for="judul">Judul Buku</label>
+                        </div>
+                        <div class="col-md-7">
+                            <select class="judul form-control" name="buku_id[]">
+                                @forelse ($judul as $v)
+                                <option value="" selected>-- Pilih Judul Buku --</option>
+                                <option value="{{ $v->id }}">{{ $v->judul }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" name="add" id="add" class="btn btn-success btn-xs"> <i
+                                    class="fas fa-plus-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <hr>
                 <a href="/peminjaman" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
@@ -93,6 +99,9 @@
     </div>
 </div>
 
+{{-- '<div class="containerJudulBuku row"><div class="col-md-4"><label for="judul">Judul Buku</label></div><div class="col-md-7"><select class="judul form-control" name="buku_id">@forelse ($judul as $v)<option value="" selected>-- Pilih Judul Buku --</option><option value="{{ $v->id}}[]">{{ $v->judul }}</option>@empty @endforelse</select></div><div class="col-md-1"><button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button></div></div>' --}}
+
+
 <!-- script select2  -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
@@ -101,13 +110,36 @@
     $(document).ready(function () {
         $('.siswa').select2({
             placeholder: "-- Pilih Nama Siswa --",
-            allowClear : true
+            allowClear: true
         });
         $('.judul').select2({
             placeholder: "-- Pilih Judul Buku --",
-            allowClear : true
+            allowClear: true
         });
+        var i = 0;
+        // $('#items-list').append(html_code);
+        /* Add the line below to your code: */
+
+        $("#add").click(function () {
+            $("#btnRemove").removeClass("disappear");
+
+            ++i;
+
+            $("#addJudulBuku").append(
+                '<br></vr><div class="containerJudulBuku row"><div class="col-md-4"><label for="judul"></label></div><div class="col-md-7"><select class="judul form-control" name="buku_id[]">@forelse ($judul as $v)<option value="" selected>-- Pilih Judul Buku --</option><option value="{{ $v->id}}">{{ $v->judul }}</option>@empty @endforelse</select></div><div class="col-md-1"><button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button></div></div>'
+);
+            $('.judul').select2({
+                placeholder: "-- Pilih Judul Buku --",
+                allowClear: true
+            });
+        });
+
+        // $prnt.find('.main').append($prnt.find('.new-wrap').html());
+        $(document).on('click', '.btn-delete', function () {
+            $(this).closest('.containerJudulBuku').remove();
+        })
     });
+
 </script>
 <!-- /.container-fluid -->
 @endsection

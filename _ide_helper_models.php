@@ -12,6 +12,41 @@
 
 namespace App\Models\Buku{
 /**
+ * App\Models\Buku\Buku
+ *
+ * @property int $id
+ * @property string $judul
+ * @property string $kategori
+ * @property string $penerbit
+ * @property string $pengarang
+ * @property int $tahun_terbit
+ * @property int $isbn
+ * @property int $jumlah_buku
+ * @property string $rak_buku
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Buku\KategoriBuku|null $namaKategori
+ * @property-read \App\Models\Buku\PenerbitBuku|null $namaPenerbit
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereIsbn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereJumlahBuku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku wherePenerbit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku wherePengarang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereRakBuku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereTahunTerbit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Buku whereUpdatedAt($value)
+ */
+	class Buku extends \Eloquent {}
+}
+
+namespace App\Models\Buku{
+/**
  * App\Models\Buku\KategoriBuku
  *
  * @property int $id
@@ -106,6 +141,48 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Siswa whereUpdatedAt($value)
  */
 	class Siswa extends \Eloquent {}
+}
+
+namespace App\Models\Transaksi{
+/**
+ * App\Models\Transaksi\DetailPinjaman
+ *
+ * @property-read \App\Models\Buku\Buku|null $buku
+ * @property-read \App\Models\Transaksi\PeminjamanBuku|null $peminjaman
+ * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman query()
+ */
+	class DetailPinjaman extends \Eloquent {}
+}
+
+namespace App\Models\Transaksi{
+/**
+ * App\Models\Transaksi\PeminjamanBuku
+ *
+ * @property int $id
+ * @property string $nama_siswa
+ * @property int $buku_id
+ * @property string $tgl_pinjam
+ * @property string $tgl_kembali
+ * @property string|null $status
+ * @property int|null $denda
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereBukuId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereDenda($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereNamaSiswa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTglKembali($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTglPinjam($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereUpdatedAt($value)
+ */
+	class PeminjamanBuku extends \Eloquent {}
 }
 
 namespace App\Models{

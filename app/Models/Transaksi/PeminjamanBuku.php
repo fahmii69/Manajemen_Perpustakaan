@@ -14,10 +14,15 @@ class PeminjamanBuku extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['buku_id', 'nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'status', 'denda'];
+    protected $fillable = ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'status', 'denda'];
 
-    public function getJudul(): BelongsTo
+    public function getDetail()
     {
-        return $this->belongsTo(Buku::class, 'buku_id');
+        return $this->hasMany(PeminjamanDetail::class, 'peminjaman_id');
+    }
+
+    public function getBuku()
+    {
+        return $this->hasMany(Buku::class, 'buku_id');
     }
 }

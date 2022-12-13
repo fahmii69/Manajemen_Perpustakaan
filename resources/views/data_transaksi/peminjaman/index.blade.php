@@ -50,8 +50,8 @@
                     searchable: false,
                 },
                 {
-                    data: 'bukus',
-                    name: 'getJudul.judul'
+                    data: 'detail_pinjaman',
+                    name: 'getDetail.buku_id'
                 },
                 {
                     data: 'nama_siswa',
