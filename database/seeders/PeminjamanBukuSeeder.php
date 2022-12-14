@@ -36,8 +36,9 @@ class PeminjamanBukuSeeder extends Seeder
 
             foreach (range(1, rand(1, 3)) as $k) {
                 PeminjamanDetail::create([
-                    'buku_id' => rand(1, 25),
-                    'peminjaman_id' => $peminjaman->id
+                    'buku_id'       => rand(1, 25),
+                    'peminjaman_id' => $peminjaman->id,
+                    'status'        => $faker->randomElements(['SEDANG_DIPINJAM', 'HILANG', 'DIKEMBALIKAN'])[0],
                 ]);
             }
         }

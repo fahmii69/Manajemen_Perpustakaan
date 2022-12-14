@@ -19,8 +19,7 @@
 
                 <div class="form-group row">
                     <label for="buku_id" class="col-sm-4 col-form-label">Judul</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="buku_id" name="buku_id" readonly>
+                    <div class="col-sm-8" id='editJudulBuku' >
                     </div>
                 </div>
 
@@ -41,14 +40,14 @@
                 <div class="form-group row">
                     <label for="tgl_kembali" class="col-sm-4 col-form-label">Tgl_Kembali</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control" id="tgl_kembali" name="tgl_kembali">
+                        <input type="date" class="form-control" readonly="readonly" id="tgl_kembali" name="tgl_kembali">
                     </div>
                 </div>
                 <!-- AKHIR FORM -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary tombol-simpan">Simpan</button>
+                <button type="button" class="btn btn-secondary btn_cancel" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary tombol-simpan" id="tombol-simpan" data-id="">Simpan</button>
             </div>
         </div>
     </div>

@@ -126,15 +126,25 @@
             ++i;
 
             $("#addJudulBuku").append(
-                '<br></vr><div class="containerJudulBuku row"><div class="col-md-4"><label for="judul"></label></div><div class="col-md-7"><select class="judul form-control" name="buku_id[]">@forelse ($judul as $v)<option value="" selected>-- Pilih Judul Buku --</option><option value="{{ $v->id}}">{{ $v->judul }}</option>@empty @endforelse</select></div><div class="col-md-1"><button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button></div></div>'
+                `<br><div class="containerJudulBuku row">
+                    <div class="col-md-4">
+                        <label for="judul">
+                            </label>
+                            </div>
+                            <div class="col-md-7">
+                                <select class="judul form-control" name="buku_id[]">
+                                    @forelse ($judul as $v)
+                                    <option value="" selected>-- Pilih Judul Buku --</option>
+                                    <option value="{{ $v->id}}">{{ $v->judul }}</option>
+                                    @empty 
+                                    @endforelse
+                                    </select></div><div class="col-md-1"><button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button></div></div>`
 );
             $('.judul').select2({
                 placeholder: "-- Pilih Judul Buku --",
                 allowClear: true
             });
         });
-
-        // $prnt.find('.main').append($prnt.find('.new-wrap').html());
         $(document).on('click', '.btn-delete', function () {
             $(this).closest('.containerJudulBuku').remove();
         })

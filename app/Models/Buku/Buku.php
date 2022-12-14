@@ -37,8 +37,4 @@ class Buku extends Model
     {
         return $this->HasMany(PeminjamanDetail::class, 'buku_id');
     }
-    public function getBuku(): HasMany
-    {
-        return $this->HasMany(PeminjamanBuku::class, 'buku_id');
-    }
 }

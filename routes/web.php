@@ -5,6 +5,7 @@ use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
 use App\Http\Controllers\Siswa\SiswaController;
 use App\Http\Controllers\Transaksi\PeminjamanController;
+use App\Http\Controllers\Transaksi\PengembalianController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,8 +46,9 @@ Route::get('/buku/get', [BukuController::class, 'getBuku'])->name('buku.list');
 Route::resource('/buku', BukuController::class);
 
 Route::get('/peminjaman/get', [PeminjamanController::class, 'getPeminjaman'])->name('peminjaman.list');
-Route::get('/peminjaman/getReturn', [PeminjamanController::class, 'getPengembalian'])->name('pengembalian');
-Route::get('/peminjaman/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('peminjaman.pengembalian');
-
-Route::patch('/peminjaman/{peminjaman}/return', [PeminjamanController::class, 'pengembalianBuku'])->name('peminjaman.return');
 Route::resource('/peminjaman', PeminjamanController::class);
+
+Route::get('/pengembalian', [PengembalianController::class, 'getPengembalian'])->name('pengembalian.list');
+Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+Route::get('/pengembalian/{pengembalian}/edit', [PengembalianController::class, 'edit'])->name('pengembalian.edit');
+Route::patch('/pengembalian/{pengembalian}', [PengembalianController::class, 'pengembalianBuku'])->name('pengembalian.update');

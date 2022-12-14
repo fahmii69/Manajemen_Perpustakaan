@@ -24,7 +24,7 @@ class PeminjamanEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'buku_id' => 'required',
+            // 'buku_id' => 'required',
             'nama_siswa' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_kembali' => 'required|date|after:today',
@@ -39,7 +39,7 @@ class PeminjamanEditRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'buku_id.required'     => '*judul wajib diisi !',
+            // 'buku_id.required'     => '*judul wajib diisi !',
             'nama_siswa.required'  => '*Nama wajib diisi !.',
             'tgl_pinjam.required'  => '*Tanggal Peminjaman wajib diisi !',
             'tgl_kembali.required' => '*Tanggal kembali wajib diisi !',

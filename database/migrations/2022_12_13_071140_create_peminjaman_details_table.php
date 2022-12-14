@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('peminjaman_id')->constrained('peminjaman_bukus');
             $table->foreignId('buku_id')->constrained('bukus');
-            $table->string('status')->nullable();
-            $table->bigInteger('hilang')->default(0);
-            $table->integer('denda')->nullable();
+            $table->string('status')->nullable()->default('DIKEMBALIKAN');
+            $table->integer('denda')->nullable()->default(0);
             $table->timestamps();
         });
     }

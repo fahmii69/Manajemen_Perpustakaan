@@ -77,21 +77,29 @@
         });
 
         // 03_PROSES EDIT 
-        $('body').on('click', '.tombol-edit', function (e) {
+        $(document).on('click', '.tombol-edit', function (e) {
             let id = $(this).data('id');
             $.ajax({
-                url: 'peminjaman/' + id + '/edit',
+                url: `peminjaman/${id}/edit`,
                 type: 'GET',
                 success: function (response) {
                     $('#exampleModal').modal('show');
-                    $('#id').val(response.id);
-                    $('#buku_id').val(response.buku_id);
-                    $('#nama_siswa').val(response.nama_siswa);
-                    $('#tgl_pinjam').val(response.tgl_pinjam);
-                    $('#tgl_kembali').val(response.tgl_kembali);
+                    $('#id').val(response.peminjaman.id);
+                    $('#editJudulBuku').html(response.blade);
+                    $('#nama_siswa').val(response.peminjaman.nama_siswa);
+                    $('#tgl_pinjam').val(response.peminjaman.tgl_pinjam);
+                    $('#tgl_kembali').val(response.peminjaman.tgl_kembali,);
+                    $('#tgl_kembali').prop('readonly', false);
+                    $('.btn_cancel').click(function(){
+                    $('#exampleModal').on('hidden', function () {
+                        console.log(123);
+                        document.getElementById('exampleModal').reset();
+
+                            });
+                    });
                     $('.tombol-simpan').click(function () {
 
-                        var var_url = 'peminjaman/' + id;
+                        var var_url = `peminjaman/${id}`;
                         var var_type = 'PATCH';
                         $.ajax({
                             url: var_url,
@@ -136,11 +144,105 @@
             });
         });
 
+        var savePengembalian = function(id){
+            var var_url = `pengembalian/${id}`;
+            var var_type = 'PATCH';
+            let dataDetail =[];
+            
+            $('.containerBuku').each(function(){
+                buku_id = $(this).find('.buku_id').val();
+                detail_id = $(this).find('.detail_id').val();
+                status = $(this).find('.status').val();
+
+                dataDetail.push({
+                    detail_id: detail_id,
+                    buku_id: buku_id,
+                    status: status,
+                })
+            })
+
+
+
+            $.ajax({
+                url: var_url,
+                type: var_type,
+                data: {
+                    detail: dataDetail, 
+                    nama_siswa: $('#nama_siswa').val(),
+                    tgl_pinjam: $('#tgl_pinjam').val(),
+                    tgl_kembali: $('#tgl_kembali').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
+                        $('#exampleModal').modal('hide');
+                        table.ajax.reload();
+                        Toast.fire({
+                                icon: 'success',
+                                title: 'Pengembalian Buku berhasil'
+                            })
+                    } else {
+                        swal.fire("Error!",
+                            'Something went wrong.',
+                            "error");
+                    }
+                },
+                error: function (response) {
+                    $('.alert-danger').removeClass(
+                    'd-none');
+                    $('.alert-danger').html("<ul>");
+                    $.each(response.responseJSON.errors,
+                        function (key, value) {
+                            $('.alert-danger').find(
+                                'ul').append(
+                                "<li>" + value +
+                                "</li>");
+                        });
+                    $('.alert-danger').append("</ul>");
+                },
+            });
+        }
+
         $(document).on('click', '.btn-return', function () {
             let id = $(this).data('id');
-            returnConfirmation(id, table);
+            $.ajax({
+                url: `pengembalian/${id}/edit`,
+                type: 'GET',
+                success: function (response) {
+                    $('#exampleModal').modal('show');
+                    $('#id').val(response.pengembalian.id);
+                    $('#editJudulBuku').html(response.html);
+                    $('.status').select2();
+                    $('#nama_siswa').val(response.pengembalian.nama_siswa);
+                    $('#tgl_pinjam').val(response.pengembalian.tgl_pinjam);
+                    $('#tgl_kembali').val(response.pengembalian.tgl_kembali);
+
+                    $('#tombol-simpan').attr('data-id', id);
+                },
+                error: function (response) {
+                    swal.fire("Error!", 'Something went wrong.', "error");
+                }
+            });
+        })
+
+        $(document).on('click', '.tombol-simpan', function(){
+            let id = $(this).data('id');
+
+            savePengembalian(id);
         })
     });
+
 
     function returnConfirmation(id, table) {
         swal.fire({
@@ -176,7 +278,6 @@
                                         .resumeTimer)
                                 }
                             })
-
                             table.ajax.reload();
 
                             Toast.fire({

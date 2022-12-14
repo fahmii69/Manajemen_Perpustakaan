@@ -44,7 +44,7 @@
         var table = $('#pengembalian-dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('pengembalian')}}",
+            ajax: "{{route('pengembalian.list')}}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',

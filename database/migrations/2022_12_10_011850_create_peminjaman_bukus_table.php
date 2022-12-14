@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('nama_siswa')->constrained('siswas');
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');
-            $table->string('status')->nullable();
-            $table->integer('denda')->nullable();
+            $table->string('status')->nullable()->default('SEDANG_DIPINJAM');
             $table->timestamps();
         });
     }
