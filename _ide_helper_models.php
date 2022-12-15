@@ -145,44 +145,59 @@ namespace App\Models{
 
 namespace App\Models\Transaksi{
 /**
- * App\Models\Transaksi\DetailPinjaman
- *
- * @property-read \App\Models\Buku\Buku|null $buku
- * @property-read \App\Models\Transaksi\PeminjamanBuku|null $peminjaman
- * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|DetailPinjaman query()
- */
-	class DetailPinjaman extends \Eloquent {}
-}
-
-namespace App\Models\Transaksi{
-/**
  * App\Models\Transaksi\PeminjamanBuku
  *
  * @property int $id
  * @property string $nama_siswa
- * @property int $buku_id
  * @property string $tgl_pinjam
  * @property string $tgl_kembali
  * @property string|null $status
  * @property int|null $denda
+ * @property int|null $hilang
+ * @property int|null $total
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku query()
- * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereBukuId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereDenda($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereHilang($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereNamaSiswa($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTglKembali($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTglPinjam($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereUpdatedAt($value)
  */
 	class PeminjamanBuku extends \Eloquent {}
+}
+
+namespace App\Models\Transaksi{
+/**
+ * App\Models\Transaksi\PeminjamanDetail
+ *
+ * @property int $id
+ * @property int $peminjaman_id
+ * @property int $buku_id
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Buku\Buku $buku
+ * @property-read mixed $judul_buku
+ * @property-read \App\Models\Transaksi\PeminjamanBuku $peminjaman
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereBukuId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail wherePeminjamanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereUpdatedAt($value)
+ */
+	class PeminjamanDetail extends \Eloquent {}
 }
 
 namespace App\Models{

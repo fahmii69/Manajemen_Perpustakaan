@@ -21,7 +21,6 @@
                             <th>Nama Siswa</th>
                             <th>Tgl. Pinjam</th>
                             <th>Tgl. Kembali</th>
-                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -66,10 +65,6 @@
                     name: 'tgl_kembali'
                 },
                 {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
                     data: 'aksi',
                     name: 'aksi'
                 },
@@ -83,24 +78,18 @@
                 url: `peminjaman/${id}/edit`,
                 type: 'GET',
                 success: function (response) {
+                    var var_url = `peminjaman/${id}`;
+                    var var_type = 'PATCH';
                     $('#exampleModal').modal('show');
                     $('#id').val(response.peminjaman.id);
                     $('#editJudulBuku').html(response.blade);
                     $('#nama_siswa').val(response.peminjaman.nama_siswa);
                     $('#tgl_pinjam').val(response.peminjaman.tgl_pinjam);
                     $('#tgl_kembali').val(response.peminjaman.tgl_kembali,);
-                    $('#tgl_kembali').prop('readonly', false);
-                    $('.btn_cancel').click(function(){
-                    $('#exampleModal').on('hidden', function () {
-                        console.log(123);
-                        document.getElementById('exampleModal').reset();
-
-                            });
-                    });
+                    $('#tgl_kembali').attr('readonly', false);
+                    $('#inputDenda').addClass('disappear');
                     $('.tombol-simpan').click(function () {
 
-                        var var_url = `peminjaman/${id}`;
-                        var var_type = 'PATCH';
                         $.ajax({
                             url: var_url,
                             type: var_type,
@@ -161,8 +150,6 @@
                 })
             })
 
-
-
             $.ajax({
                 url: var_url,
                 type: var_type,
@@ -171,6 +158,7 @@
                     nama_siswa: $('#nama_siswa').val(),
                     tgl_pinjam: $('#tgl_pinjam').val(),
                     tgl_kembali: $('#tgl_kembali').val(),
+                    hilang: $('#hilang').val(),
                 },
                 success: function (response) {
                     if (response.success) {
@@ -214,8 +202,12 @@
             });
         }
 
+        var peminjamanId = "";
+
         $(document).on('click', '.btn-return', function () {
             let id = $(this).data('id');
+            peminjamanId = id;
+            
             $.ajax({
                 url: `pengembalian/${id}/edit`,
                 type: 'GET',
@@ -227,8 +219,8 @@
                     $('#nama_siswa').val(response.pengembalian.nama_siswa);
                     $('#tgl_pinjam').val(response.pengembalian.tgl_pinjam);
                     $('#tgl_kembali').val(response.pengembalian.tgl_kembali);
-
-                    $('#tombol-simpan').attr('data-id', id);
+                    $('#tgl_kembali').attr('readonly', true);
+                    $('#inputDenda').removeClass('disappear');
                 },
                 error: function (response) {
                     swal.fire("Error!", 'Something went wrong.', "error");
@@ -236,71 +228,14 @@
             });
         })
 
-        $(document).on('click', '.tombol-simpan', function(){
-            let id = $(this).data('id');
+        $(document).on('click', '#tombol-simpan', function(){
+            if(peminjamanId == ""){
+                Swal.fire("Error!", "Something wrong!", "error");
 
-            savePengembalian(id);
+                return false;
+            }
+            savePengembalian(peminjamanId);
         })
     });
-
-
-    function returnConfirmation(id, table) {
-        swal.fire({
-            title: "Sudah di cek kondisi buku ?",
-            icon: 'question',
-            text: "Kamuuuh Yakin??!!!",
-            showCancelButton: !0,
-            confirmButtonText: "Iya!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: !0
-        }).then(function (e) {
-            if (e.value === true) {
-                let token = $('meta[name="csrf-token"]').attr('content');
-                var _url = `/peminjaman/${id}/return`;
-
-                $.ajax({
-                    type: 'patch',
-                    url: _url,
-                    data: {
-                        _token: token
-                    },
-                    success: function (resp) {
-                        if (resp.success) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            })
-                            table.ajax.reload();
-
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Signed in successfully'
-                            })
-                        }else{
-                            swal.fire("Error!", resp.message, "error");
-                        }
-                    },
-                    error: function (resp) {
-                        swal.fire("Error!", 'Something went wrong.', "error");
-                    }
-                });
-
-            } else {
-                e.dismiss;
-            }
-
-        }, function (dismiss) {
-            return false;
-        })
-    }
-
 </script>
 @endsection

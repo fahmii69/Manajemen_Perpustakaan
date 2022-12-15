@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('title','Pegawai | Update Data')
+@section('title','Penerbit | Update Data')
 
 @section('content')
 <!-- Begin Page Content -->
@@ -35,18 +35,7 @@
                     </div>
                 </div>
                 <hr>
-                <a href="/penerbit" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-circle-left"></i>
-                    </span>
-                    <span class="text">Kembali</span>
-                </a>
-                <button type="submit" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus-circle"></i>
-                    </span>
-                    <span class="text">Update Data</span>
-                </button>
+                <x-tombol_addback_form back=penerbit status=Update/>
             </form>
         </div>
     </div>

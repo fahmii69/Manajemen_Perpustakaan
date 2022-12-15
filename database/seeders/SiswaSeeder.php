@@ -20,7 +20,7 @@ class SiswaSeeder extends Seeder
         // $data  = [];
 
         for ($i = 0; $i < 50; $i++) {
-            $gender = $faker->randomElements(['Laki-laki', 'Perempuan'])[0];
+            $gender = $faker->randomElements(['Laki - laki', 'Perempuan'])[0];
             // $data[] =
             Siswa::insert(
                 [

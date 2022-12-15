@@ -25,21 +25,36 @@ class PengembalianController extends Controller
      */
     public function index(): ViewView
     {
-
         return view('data_transaksi.peminjaman.pengembalian');
     }
 
     public function getPengembalian(Request $request)
     {
+        // dd($request->all());
         if ($request->ajax()) {
-            $data = PeminjamanBuku::whereStatus('Dikembalikan')->with('getJudul')->latest('updated_at');
+            $data = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->with('getDetail')->latest('updated_at');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('bukus', function ($data) {
-                    return $data->getJudul->judul;
+                ->addColumn('detail_pinjaman', function ($data) {
+                    return $data->getDetail->where('status', 'DIKEMBALIKAN')->pluck('judul_buku')->toArray();
                 })
                 ->editColumn('updated_at', function ($data) {
                     return Carbon::parse($data->updated_at)->format('Y-m-d');
+                })
+                ->editColumn('denda', function ($data) {
+                    if ($data->denda > 0) {
+                        return $data->denda;
+                    }
+                })
+                ->editColumn('hilang', function ($data) {
+                    if ($data->hilang > 0) {
+                        return $data->hilang;
+                    }
+                })
+                ->editColumn('total', function ($data) {
+                    if ($data->total > 0) {
+                        return $data->total;
+                    }
                 })
                 ->make(true);
         }
@@ -80,10 +95,13 @@ class PengembalianController extends Controller
 
         try {
             $pengembalian->fill($request->safe(
-                ['nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
+                ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'hilang']
             ));
             $pengembalian->updated_at = Carbon::now();
+            $pengembalian->denda      = getDenda($pengembalian);
+            $pengembalian->total      = getTotalDenda($pengembalian);
             $pengembalian->status = 'DIKEMBALIKAN';
+            // return $pengembalian;
             $pengembalian->update();
 
             foreach ($request->detail as $arrayBuku) {

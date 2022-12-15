@@ -131,8 +131,9 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku): JsonResponse
     {
+        // dd($buku);
         Buku::destroy($buku->id);
 
-        return response()->json(['success' => true, 'message' => 'Data Buku berhasil DIHAPUS']);
+        return response()->json(['success' => true, 'message' => 'Data Kategori berhasil DIHAPUS']);
     }
 }

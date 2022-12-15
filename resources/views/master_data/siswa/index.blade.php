@@ -3,6 +3,7 @@
 @section('title','Data Siswa')
 
 @section('content')
+@include('sweetalert::alert')
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -10,16 +11,7 @@
         <span class="h3 mb-4 text-gray-800">Data Siswa</span>
     </i>
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <a href="{{ route('siswa.create') }}" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-user-plus"></i>
-                </span>
-                <span class="text">Tambah Data</span>
-            </a>
-            <br>
-            @include('sweetalert::alert')
-        </div>
+        <x-tombol_store route="{{route('siswa.create')}}" title=Siswa />
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="siswa-dataTable" width="100%" cellspacing="0">
@@ -42,7 +34,6 @@
     </div>
 </div>
 @endsection
-
 @section('script')
 @include('layout.script');
 <script>
@@ -131,7 +122,7 @@
 
                             Toast.fire({
                                 icon: 'success',
-                                title: 'Signed in successfully'
+                                title: 'Data siswa berhasil dihapus '
                             })
                         }
                     },

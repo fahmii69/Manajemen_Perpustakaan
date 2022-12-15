@@ -79,24 +79,13 @@
                     <div class="col-sm-8">
                         <select name="jenis_kelamin" id="jenis_kelamin" class="jenis_kelamin form-control">
                             @foreach ($jenis_kelamin as $jk)
-                            <option value="jenis_kelamin">{{ $jk }}</option>
+                            <option value="{{ $jk }}">{{ $jk }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <hr>
-                <a href="/siswa" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-circle-left"></i>
-                    </span>
-                    <span class="text">Kembali</span>
-                </a>
-                <button type="submit" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus-circle"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </button>
+                <x-tombol_addback_form back=siswa status=Tambah/>
             </form>
         </div>
     </div>

@@ -15,7 +15,6 @@
         <div class="card-body">
             <form method="post" action="{{ route('peminjaman.store') }}">
                 @csrf
-                {{-- <input type="hidden" name="buku_id" value="1"> --}}
                 <div class="form-group row">
                     <label for="No. Pinjam" class="col-sm-4 col-form-label">No. Pinjam</label>
                     <div class="col-sm-8">
@@ -82,25 +81,11 @@
                     </div>
                 </div>
                 <hr>
-                <a href="/peminjaman" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-circle-left"></i>
-                    </span>
-                    <span class="text">Kembali</span>
-                </a>
-                <button type="submit" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus-circle"></i>
-                    </span>
-                    <span class="text">Tambah Data</span>
-                </button>
+                <x-tombol_addback_form back=peminjaman status=Tambah/>
             </form>
         </div>
     </div>
 </div>
-
-{{-- '<div class="containerJudulBuku row"><div class="col-md-4"><label for="judul">Judul Buku</label></div><div class="col-md-7"><select class="judul form-control" name="buku_id">@forelse ($judul as $v)<option value="" selected>-- Pilih Judul Buku --</option><option value="{{ $v->id}}[]">{{ $v->judul }}</option>@empty @endforelse</select></div><div class="col-md-1"><button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button></div></div>' --}}
-
 
 <!-- script select2  -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -117,8 +102,6 @@
             allowClear: true
         });
         var i = 0;
-        // $('#items-list').append(html_code);
-        /* Add the line below to your code: */
 
         $("#add").click(function () {
             $("#btnRemove").removeClass("disappear");

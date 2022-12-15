@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('peminjaman_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('peminjaman_id')->constrained('peminjaman_bukus');
-            $table->foreignId('buku_id')->constrained('bukus');
+            $table->foreignId('buku_id')->constrained('bukus')->references('id')->on('bukus')->onDelete('cascade');
             $table->string('status')->nullable()->default('DIKEMBALIKAN');
-            $table->integer('denda')->nullable()->default(0);
             $table->timestamps();
         });
     }

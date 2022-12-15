@@ -14,7 +14,7 @@ class PeminjamanBuku extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'status', 'denda'];
+    protected $fillable = ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'status', 'hilang'];
 
     public function getDetail()
     {

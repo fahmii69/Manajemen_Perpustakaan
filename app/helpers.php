@@ -25,4 +25,17 @@ if (!function_exists('getDenda')) {
 
         return $denda;
     }
+
+    if (!function_exists('getTotalDenda')) {
+        function getTotalDenda($peminjaman)
+        {
+            $total = 0;
+            $denda = $peminjaman->denda;
+            $hilang = $peminjaman->hilang;
+            $total = $denda + $hilang;
+
+
+            return $total;
+        }
+    }
 }

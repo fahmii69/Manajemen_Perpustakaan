@@ -28,6 +28,7 @@ class PeminjamanEditRequest extends FormRequest
             'nama_siswa' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_kembali' => 'required|date|after:today',
+            'hilang' => 'nullable',
         ];
     }
 

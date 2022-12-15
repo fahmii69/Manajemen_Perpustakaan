@@ -19,6 +19,9 @@ return new class extends Migration
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');
             $table->string('status')->nullable()->default('SEDANG_DIPINJAM');
+            $table->integer('denda')->nullable()->default(0);
+            $table->integer('hilang')->nullable()->default(0);
+            $table->integer('total')->nullable()->default(0);
             $table->timestamps();
         });
     }

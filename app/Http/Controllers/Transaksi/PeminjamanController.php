@@ -55,7 +55,7 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource.  
      *
      * @return View
      */
@@ -81,24 +81,10 @@ class PeminjamanController extends Controller
                     ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']
                 ));
             $peminjaman->save();
-            // foreach($request->id_buku as $buku) {
-            // Detail::wherePeminjamanId($id)->delete();
 
-            // $oldDetail = select detail where peminjaman id = 1
-
-            // foreach(detail){
-            //     $buku = buku::find(detail)
-
-            //     $buku->stok += 1;
-
-            //     $buku->save();
-            // }
-
-            // Detail::wherePeminjamanId($id)->delete();
             foreach ($request->buku_id as $buku_id) {
                 $buku       = Buku::find($buku_id);
                 $buku->jumlah_buku = $buku->jumlah_buku - 1;
-                // dd($buku);
                 $buku->update();
 
                 PeminjamanDetail::create([

@@ -3,6 +3,7 @@
 @section('title','Data Penerbit')
 
 @section('content')
+@include('sweetalert::alert')
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -10,16 +11,7 @@
         <span class="h3 mb-4 text-gray-800">Data Penerbit</span>
     </i>
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <a href="{{ route('penerbit.create') }}" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-user-plus"></i>
-                </span>
-                <span class="text">Tambah Penerbit Buku</span>
-            </a>
-            <br>
-            @include('sweetalert::alert')
-        </div>
+        <x-tombol_store route="{{ route('penerbit.create') }}" title='Penerbit Buku' />
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="penerbit-dataTable" width="100%" cellspacing="0">
@@ -115,7 +107,7 @@
 
                             Toast.fire({
                                 icon: 'success',
-                                title: 'Signed in successfully'
+                                title: 'Penerbit Berhasil Dihapus'
                             })
                         }
                     },

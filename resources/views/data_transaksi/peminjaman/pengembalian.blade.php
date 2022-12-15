@@ -3,6 +3,7 @@
 @section('title','Data Pengembalian')
 
 @section('content')
+@include('sweetalert::alert')
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -10,7 +11,6 @@
         <span class="h3 mb-4 text-gray-800">Data Pengembalian</span>
     </i>
     <div class="card shadow mb-4">
-        @include('sweetalert::alert')
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="pengembalian-dataTable" width="100%" cellspacing="0">
@@ -20,9 +20,10 @@
                             <th>Nama Siswa</th>
                             <th>Tgl. Pinjam</th>
                             <th>Tgl. Kembali</th>
-                            <th>Status</th>
                             <th>Tgl. Pengembalian</th>
-                            <th>Denda</th>
+                            <th>Denda Terlambat</th>
+                            <th>Denda Hilang</th>
+                            <th>Total Denda</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,8 +39,6 @@
 @include('layout.script');
 <script></script>
 <script>
-   
- 
     $(document).ready(function () {
         var table = $('#pengembalian-dataTable').DataTable({
             processing: true,
@@ -51,7 +50,10 @@
                     orderable: false,
                     searchable: false,
                 },
-                {data: 'bukus', name: 'getJudul.judul'},
+                {
+                    data: 'detail_pinjaman',
+                    name: 'getDetail.buku_id'
+                },
                 {
                     data: 'nama_siswa',
                     name: 'nama_siswa'
@@ -65,16 +67,23 @@
                     name: 'tgl_kembali'
                 },
                 {
-                    data: 'status',
-                    name: 'status',
-                },
-                {
                     data: 'updated_at',
                     name: 'updated_at',
                 },                
                 {
                     data: 'denda',
-                    name: 'denda',
+                    // name: 'denda',
+                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
+                },
+                {
+                    data: 'hilang',
+                    // name: 'denda',
+                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
+                },
+                {
+                    data: 'total',
+                    // name: 'denda',
+                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
                 },
             ]
         });
