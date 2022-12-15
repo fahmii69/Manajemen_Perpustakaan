@@ -11,7 +11,7 @@ class perpanjang_buku extends Component
      *
      * @return void
      */
-    public function __construct(public $item)
+    public function __construct(public string $item)
     {
     }
 

@@ -12,7 +12,7 @@ class tombol_store extends Component
      * @return void
      */
     public function __construct(
-        public $route,
+        public string $route,
         public string $title
 
     ) {
