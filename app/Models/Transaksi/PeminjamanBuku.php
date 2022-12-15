@@ -16,7 +16,7 @@ class PeminjamanBuku extends Model
 
     protected $fillable = ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'status', 'hilang'];
 
-    public function getDetail()
+    public function getDetail(): HasMany
     {
         return $this->hasMany(PeminjamanDetail::class, 'peminjaman_id');
     }

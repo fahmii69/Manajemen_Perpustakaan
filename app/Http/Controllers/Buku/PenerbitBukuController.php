@@ -88,7 +88,6 @@ class PenerbitBukuController extends Controller
      */
     public function edit(PenerbitBuku $penerbit): View
     {
-        // PenerbitBuku::find($penerbit->id);
         return view('master_data.penerbit.edit', ['penerbit' => $penerbit]);
     }
 

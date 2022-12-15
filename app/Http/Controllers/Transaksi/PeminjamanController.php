@@ -41,7 +41,7 @@ class PeminjamanController extends Controller
     public function getPeminjaman(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->with('getDetail')->latest('id');
+            $data = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->latest('id');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('detail_pinjaman', function ($data) {
@@ -74,8 +74,8 @@ class PeminjamanController extends Controller
      */
     public function store(PeminjamanPostRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-
+        DB::beginTransaction();
+        try {
             $peminjaman =
                 new PeminjamanBuku($request->safe(
                     ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']
@@ -93,7 +93,11 @@ class PeminjamanController extends Controller
                     'status' => 'SEDANG_DIPINJAM',
                 ]);
             }
-        });
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
 
         Alert::success('Success', 'Data Buku Yang Dipinjamkan Berhasil Didaftarkan !!!');
         return redirect('/peminjaman');
@@ -102,13 +106,11 @@ class PeminjamanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  PeminjamanBuku  $peminjaman
      * @return JsonResponse
      */
     public function edit(PeminjamanBuku $peminjaman): JsonResponse
     {
-        $peminjaman->getDetail;
-        // dd($peminjaman->getDetail);
         $blade = "";
         foreach ($peminjaman->getDetail as $item) {
             $blade .= FacadesView::make('components.perpanjang_buku', compact('item'));
@@ -119,19 +121,24 @@ class PeminjamanController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PeminjamanEditRequest $request
+     * @param PeminjamanBuku $peminjaman
+     * @return JsonResponse
      */
-    public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman)
+    public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman): JsonResponse
     {
-        DB::transaction(function () use ($request, $peminjaman) {
-
+        DB::beginTransaction();
+        try {
             $peminjaman->fill($request->safe(
                 ['nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
             ));
             $peminjaman->update();
-        });
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $response['message'] = $e->getMessage();
+        }
+        DB::commit();
+
         return response()->json(['success' => "Berhasil melakukan update data"]);
     }
 }

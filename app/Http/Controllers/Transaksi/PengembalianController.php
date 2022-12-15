@@ -12,8 +12,8 @@ use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
-use Illuminate\View\View as ViewView;
+use Illuminate\Support\Facades\View as FacadesView;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class PengembalianController extends Controller
@@ -23,16 +23,15 @@ class PengembalianController extends Controller
      *
      * @return View
      */
-    public function index(): ViewView
+    public function index(): View
     {
         return view('data_transaksi.peminjaman.pengembalian');
     }
 
     public function getPengembalian(Request $request)
     {
-        // dd($request->all());
         if ($request->ajax()) {
-            $data = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->with('getDetail')->latest('updated_at');
+            $data = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->latest('updated_at');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('detail_pinjaman', function ($data) {
@@ -63,31 +62,30 @@ class PengembalianController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param PeminjamanBuku $pengembalian
      * @return JsonResponse
      */
     public function edit(PeminjamanBuku $pengembalian): JsonResponse
     {
-        $pengembalian->getDetail;
         $status = ['DIKEMBALIKAN', 'HILANG'];
         $html = "";
 
 
         foreach ($pengembalian->getDetail as $item) {
-            $html .= View::make('components.pengembalian_buku', compact('item', 'status'));
+            $html .= FacadesView::make('components.pengembalian_buku', compact('item', 'status'));
         }
         return response()->json(['pengembalian' => $pengembalian, 'status' => $status, 'html' => $html]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Pengembalian buku.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PeminjamanEditRequest $request
+     * @param PeminjamanBuku $pengembalian
+     * @return JsonResponse
      */
-    public function pengembalianBuku(PeminjamanEditRequest $request, PeminjamanBuku $pengembalian)
+    public function pengembalianBuku(PeminjamanEditRequest $request, PeminjamanBuku $pengembalian): JsonResponse
     {
-        // dd($request->all());
         DB::beginTransaction();
         $response = [
             'success' => false
@@ -101,7 +99,6 @@ class PengembalianController extends Controller
             $pengembalian->denda      = getDenda($pengembalian);
             $pengembalian->total      = getTotalDenda($pengembalian);
             $pengembalian->status = 'DIKEMBALIKAN';
-            // return $pengembalian;
             $pengembalian->update();
 
             foreach ($request->detail as $arrayBuku) {

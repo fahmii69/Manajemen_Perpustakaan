@@ -25,6 +25,6 @@ class tombol_addBack_form extends Component
      */
     public function render()
     {
-        return view('components.tombol_kembali_tambah_form');
+        return view('components.tombol_addBack_form');
     }
 }

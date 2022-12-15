@@ -11,8 +11,10 @@ class pengembalian_buku extends Component
      *
      * @return void
      */
-    public function __construct(public $status, public $item)
-    {
+    public function __construct(
+        public string $status,
+        public string $item
+    ) {
     }
 
     /**
@@ -22,6 +24,6 @@ class pengembalian_buku extends Component
      */
     public function render()
     {
-        return view('components.judul-buku');
+        return view('components.pengembalian_buku');
     }
 }
