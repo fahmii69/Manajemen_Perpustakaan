@@ -3,6 +3,7 @@
 use App\Http\Controllers\Buku\BukuController;
 use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Siswa\SiswaController;
 use App\Http\Controllers\Transaksi\PeminjamanController;
 use App\Http\Controllers\Transaksi\PengembalianController;
@@ -19,22 +20,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [SiswaController::class, 'index'])->name('index');
-Route::get('/list', [SiswaController::class, 'getSiswa'])->name('siswa.list');
-
-
-Route::group([
-    'prefix' => 'siswa',
-    'as' => 'siswa.',
+route::group([
+    'middleware' => ['auth'],
 ], function () {
-    Route::get('/', [SiswaController::class, 'indexSiswa'])->name('index');
-    Route::get('/create', [SiswaController::class, 'create'])->name('create');
-    Route::get('/{siswa}/edit', [SiswaController::class, 'edit'])->name('edit');
+    Route::get('/', [SiswaController::class, 'index'])->name('index');
+    Route::get('/list', [SiswaController::class, 'getSiswa'])->name('siswa.list');
 
-    Route::post('/create', [SiswaController::class, 'store'])->name('store');
-    Route::delete('/{siswa}', [SiswaController::class, 'destroy'])->name('delete');
-    Route::patch('/{siswa}/edit', [SiswaController::class, 'update'])->name('update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::group([
+        'prefix' => 'siswa',
+        'as' => 'siswa.',
+    ], function () {
+        Route::get('/', [SiswaController::class, 'indexSiswa'])->name('index');
+        Route::get('/create', [SiswaController::class, 'create'])->name('create');
+        Route::get('/{siswa}/edit', [SiswaController::class, 'edit'])->name('edit');
+
+        Route::post('/create', [SiswaController::class, 'store'])->name('store');
+        Route::delete('/{siswa}', [SiswaController::class, 'destroy'])->name('delete');
+        Route::patch('/{siswa}/edit', [SiswaController::class, 'update'])->name('update');
+    });
 });
+
+
 
 Route::get('/penerbit/get', [PenerbitBukuController::class, 'getPenerbit'])->name('penerbit.list');
 Route::resource('/penerbit', PenerbitBukuController::class);
@@ -52,3 +62,16 @@ Route::get('/pengembalian/get', [PengembalianController::class, 'getPengembalian
 Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
 Route::get('/pengembalian/{pengembalian}/edit', [PengembalianController::class, 'edit'])->name('pengembalian.edit');
 Route::patch('/pengembalian/{pengembalian}', [PengembalianController::class, 'pengembalianBuku'])->name('pengembalian.update');
+
+// Route::get('', function () {
+//     return view('welcome');
+// });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+});
+
+require __DIR__ . '/auth.php';
