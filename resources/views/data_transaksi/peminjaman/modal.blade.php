@@ -51,7 +51,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn_cancel" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary tombol-simpan" id="tombol-simpan" data-test="0">Simpan</button>
+                <button type="button" class="btn btn-primary tombol-simpan" data-test="0">Simpan</button>
             </div>
         </div>
     </div>

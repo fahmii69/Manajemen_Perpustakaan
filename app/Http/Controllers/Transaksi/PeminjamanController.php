@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Gate;
+
 
 class PeminjamanController extends Controller
 {
@@ -125,20 +127,44 @@ class PeminjamanController extends Controller
      * @param PeminjamanBuku $peminjaman
      * @return JsonResponse
      */
+    // public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman)
+    // {
+    //     Gate::authorize('update', $peminjaman);
+    //     return 123;
+    // }
     public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman): JsonResponse
     {
+        $response = [
+            'success' => false,
+        ];
+
         DB::beginTransaction();
+
         try {
+
+            // $validation = 
+            Gate::authorize('update', $peminjaman);
+
+            // if ($validation->denied()) {
+
+            //     Alert::error('Error', 'Post where error');
+
+            //     return redirect()->back();
+            // }
+
             $peminjaman->fill($request->safe(
-                ['nama_siswa', 'tgl_pinjam', 'tgl_kembali',]
+                ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']
             ));
             $peminjaman->update();
+
+            $response['message'] = "Berhasil melakukan update data";
+            $response['success'] = true;
         } catch (\Exception $e) {
             DB::rollBack();
             $response['message'] = $e->getMessage();
         }
         DB::commit();
 
-        return response()->json(['success' => "Berhasil melakukan update data"]);
+        return response()->json($response);
     }
 }

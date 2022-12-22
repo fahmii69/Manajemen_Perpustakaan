@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('peminjaman_bukus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('nama_siswa')->constrained('siswas');
             $table->date('tgl_pinjam');
             $table->date('tgl_kembali');

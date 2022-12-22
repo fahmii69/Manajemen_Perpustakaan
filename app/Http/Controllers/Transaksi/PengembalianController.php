@@ -12,6 +12,7 @@ use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
@@ -92,6 +93,8 @@ class PengembalianController extends Controller
         ];
 
         try {
+
+            Gate::authorize('update', $pengembalian);
             $pengembalian->fill($request->safe(
                 ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'hilang']
             ));

@@ -52,6 +52,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
                                         <div class="form-group">
                                             <input type="password"
                                                 class="form-control form-control-user @error('password') is-invalid @enderror"
@@ -60,6 +61,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
@@ -68,9 +70,9 @@
                                             </div>
                                         </div>
 
-                                        <a href="{{ url('/')}}" class="btn btn-primary btn-user btn-block">
+                                        <button class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">

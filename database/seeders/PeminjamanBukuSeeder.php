@@ -6,6 +6,7 @@ use App\Models\Buku\Buku;
 use App\Models\Siswa;
 use App\Models\Transaksi\PeminjamanDetail;
 use App\Models\Transaksi\PeminjamanBuku;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -25,6 +26,7 @@ class PeminjamanBukuSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             $peminjaman = PeminjamanBuku::create(
                 [
+                    'user_id'     => User::inRandomOrder()->first()->id,
                     'nama_siswa'  => Siswa::inRandomOrder()->first()->nama,
                     'tgl_pinjam'  => $faker->date(),
                     'tgl_kembali' => $faker->dateTimeInInterval('+1 week'),

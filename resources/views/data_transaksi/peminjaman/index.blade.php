@@ -38,14 +38,17 @@
 @include('layout.script');
 <script>
     $(document).ready(function () {
+        var peminjamanId = "";
+        var type         = "";
+
         var table = $('#peminjaman-dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{route('peminjaman.list')}}",
             columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
+                    data      : 'DT_RowIndex',
+                    name      : 'DT_RowIndex',
+                    orderable : false,
                     searchable: false,
                 },
                 {
@@ -71,146 +74,38 @@
             ]
         });
 
-        // 03_PROSES EDIT 
+        // 02_PROSES PERPANJANG 
         $(document).on('click', '.tombol-edit', function (e) {
-            let id = $(this).data('id');
+            let id           = $(this).data('id');
+                type         = "PERPANJANG";
+                peminjamanId = id;
+
             $.ajax({
-                url: `peminjaman/${id}/edit`,
-                type: 'GET',
+                url    : `peminjaman/${id}/edit`,
+                type   : 'GET',
                 success: function (response) {
-                    var var_url = `peminjaman/${id}`;
-                    var var_type = 'PATCH';
                     $('#exampleModal').modal('show');
                     $('#id').val(response.peminjaman.id);
                     $('#editJudulBuku').html(response.blade);
                     $('#nama_siswa').val(response.peminjaman.nama_siswa);
                     $('#tgl_pinjam').val(response.peminjaman.tgl_pinjam);
-                    $('#tgl_kembali').val(response.peminjaman.tgl_kembali,);
+                    $('#tgl_kembali').val(response.peminjaman.tgl_kembali);
                     $('#tgl_kembali').attr('readonly', false);
                     $('#inputDenda').addClass('disappear');
-                    $('.tombol-simpan').click(function () {
-
-                        $.ajax({
-                            url: var_url,
-                            type: var_type,
-                            data: {
-                                buku_id: $('#buku_id').val(),
-                                nama_siswa: $('#nama_siswa').val(),
-                                tgl_pinjam: $('#tgl_pinjam').val(),
-                                tgl_kembali: $('#tgl_kembali').val(),
-                            },
-                            success: function (response) {
-                                if (response.success) {
-                                    swal.fire("Done!", response.message,
-                                        "success");
-                                    $('#exampleModal').modal('hide');
-                                    table.ajax.reload();
-                                } else {
-                                    swal.fire("Error!",
-                                        'Something went wrong.',
-                                        "error");
-                                }
-                            },
-                            error: function (response) {
-                                $('.alert-danger').removeClass(
-                                'd-none');
-                                $('.alert-danger').html("<ul>");
-                                $.each(response.responseJSON.errors,
-                                    function (key, value) {
-                                        $('.alert-danger').find(
-                                            'ul').append(
-                                            "<li>" + value +
-                                            "</li>");
-                                    });
-                                $('.alert-danger').append("</ul>");
-                            },
-                        });
-                    });
                 },
-                error: function (response) {
-                    swal.fire("Error!", 'Something went wrong.', "error");
-                }
             });
         });
 
-        var savePengembalian = function(id){
-            var var_url = `pengembalian/${id}`;
-            var var_type = 'PATCH';
-            let dataDetail =[];
-            
-            $('.containerBuku').each(function(){
-                buku_id = $(this).find('.buku_id').val();
-                detail_id = $(this).find('.detail_id').val();
-                status = $(this).find('.status').val();
-
-                dataDetail.push({
-                    detail_id: detail_id,
-                    buku_id: buku_id,
-                    status: status,
-                })
-            })
-
-            $.ajax({
-                url: var_url,
-                type: var_type,
-                data: {
-                    detail: dataDetail, 
-                    nama_siswa: $('#nama_siswa').val(),
-                    tgl_pinjam: $('#tgl_pinjam').val(),
-                    tgl_kembali: $('#tgl_kembali').val(),
-                    hilang: $('#hilang').val(),
-                },
-                success: function (response) {
-                    if (response.success) {
-                        const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal
-                                        .resumeTimer)
-                                }
-                            })
-                        $('#exampleModal').modal('hide');
-                        table.ajax.reload();
-                        Toast.fire({
-                                icon: 'success',
-                                title: 'Pengembalian Buku berhasil'
-                            })
-                    } else {
-                        swal.fire("Error!",
-                            'Something went wrong.',
-                            "error");
-                    }
-                },
-                error: function (response) {
-                    $('.alert-danger').removeClass(
-                    'd-none');
-                    $('.alert-danger').html("<ul>");
-                    $.each(response.responseJSON.errors,
-                        function (key, value) {
-                            $('.alert-danger').find(
-                                'ul').append(
-                                "<li>" + value +
-                                "</li>");
-                        });
-                    $('.alert-danger').append("</ul>");
-                },
-            });
-        }
-
-        var peminjamanId = "";
-
+        // 03_PROSES PENGEMBALIAN
         $(document).on('click', '.btn-return', function () {
             let id = $(this).data('id');
+
             peminjamanId = id;
+            type         = "PENGEMBALIAN";
             
             $.ajax({
-                url: `pengembalian/${id}/edit`,
-                type: 'GET',
+                url    : `pengembalian/${id}/edit`,
+                type   : 'GET',
                 success: function (response) {
                     $('#exampleModal').modal('show');
                     $('#id').val(response.pengembalian.id);
@@ -222,20 +117,103 @@
                     $('#tgl_kembali').attr('readonly', true);
                     $('#inputDenda').removeClass('disappear');
                 },
-                error: function (response) {
-                    swal.fire("Error!", 'Something went wrong.', "error");
-                }
             });
         })
 
-        $(document).on('click', '#tombol-simpan', function(){
+        var savePeminjaman = function(id,type){
+            if (type = "PEMINJAMAN"){
+                var_url  = `peminjaman/${id}`;
+                var_type = 'PATCH';
+                var_data = {
+                            buku_id    : $('#buku_id').val(),
+                            nama_siswa : $('#nama_siswa').val(),
+                            tgl_pinjam : $('#tgl_pinjam').val(),
+                            tgl_kembali: $('#tgl_kembali').val(),
+                        };
+            }else{
+                var var_url  = `pengembalian/${id}`;
+                var var_type = 'PATCH';
+                    var_data = {
+                            detail     : dataDetail,
+                            nama_siswa : $('#nama_siswa').val(),
+                            tgl_pinjam : $('#tgl_pinjam').val(),
+                            tgl_kembali: $('#tgl_kembali').val(),
+                            hilang     : $('#hilang').val(),
+                        };
+                let dataDetail =[];
+                $('.containerBuku').each(function(){
+                    buku_id   = $(this).find('.buku_id').val();
+                    detail_id = $(this).find('.detail_id').val();
+                    status    = $(this).find('.status').val();
+
+                    dataDetail.push({
+                        detail_id: detail_id,
+                        buku_id  : buku_id,
+                        status   : status,
+                    });
+                });
+            }
+            
+            $.ajax({
+                url : var_url,
+                type: var_type,
+                data: var_data,
+
+                success: function (response) {
+                    if (response.success) {
+                        const Toast = Swal.mixin({
+                                toast            : true,
+                                position         : 'top-end',
+                                showConfirmButton: false,
+                                timer            : 3000,
+                                timerProgressBar : true,
+                                didOpen          : (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
+                            $('#exampleModal').modal('hide');
+                        
+                        table.ajax.reload();
+                        Toast.fire({
+                                icon : 'success',
+                                title: 'Pengembalian Buku berhasil'
+                            });
+                    } else {
+                        swal.fire("Error!",
+                            response.message,
+                            "error");
+                    }
+                },
+            });
+        };
+
+        $('#exampleModal').on('hidden.bs.modal', function() {
+            $('#id').val('');
+            $('#buku_id').val('');
+            $('#nama_siswa').val('');
+            $('#tgl_pinjam').val('');
+            $('#tgl_kembali').val('');
+            $('#inputDenda').val('');
+            $('#hilang').val('');
+
+            $('.alert-danger').addClass('d-none');
+            $('.alert-danger').html('');
+
+            $('.alert-success').addClass('d-none');
+            $('.alert-success').html('');
+        });
+
+        $(document).on('click', '.tombol-simpan', function(){
             if(peminjamanId == ""){
                 Swal.fire("Error!", "Something wrong!", "error");
 
                 return false;
             }
-            savePengembalian(peminjamanId);
-        })
+            
+            savePeminjaman(peminjamanId, type);
+        });
     });
 </script>
 @endsection
