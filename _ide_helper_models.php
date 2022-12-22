@@ -148,6 +148,7 @@ namespace App\Models\Transaksi{
  * App\Models\Transaksi\PeminjamanBuku
  *
  * @property int $id
+ * @property int|null $user_id
  * @property string $nama_siswa
  * @property string $tgl_pinjam
  * @property string $tgl_kembali
@@ -170,6 +171,7 @@ namespace App\Models\Transaksi{
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTglPinjam($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanBuku whereUserId($value)
  */
 	class PeminjamanBuku extends \Eloquent {}
 }
@@ -215,12 +217,18 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
