@@ -71,7 +71,6 @@ class PengembalianController extends Controller
         $status = ['DIKEMBALIKAN', 'HILANG'];
         $html = "";
 
-
         foreach ($pengembalian->getDetail as $item) {
             $html .= FacadesView::make('components.pengembalian_buku', compact('item', 'status'));
         }
@@ -98,10 +97,11 @@ class PengembalianController extends Controller
             $pengembalian->fill($request->safe(
                 ['nama_siswa', 'tgl_pinjam', 'tgl_kembali', 'hilang']
             ));
+
             $pengembalian->updated_at = Carbon::now();
             $pengembalian->denda      = getDenda($pengembalian);
             $pengembalian->total      = getTotalDenda($pengembalian);
-            $pengembalian->status = 'DIKEMBALIKAN';
+            $pengembalian->status     = 'DIKEMBALIKAN';
             $pengembalian->update();
 
             foreach ($request->detail as $arrayBuku) {

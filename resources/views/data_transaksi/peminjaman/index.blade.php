@@ -102,6 +102,7 @@
 
             peminjamanId = id;
             type         = "PENGEMBALIAN";
+            console.log(type);
             
             $.ajax({
                 url    : `pengembalian/${id}/edit`,
@@ -121,39 +122,43 @@
         })
 
         var savePeminjaman = function(id,type){
-            if (type = "PEMINJAMAN"){
-                var_url  = `peminjaman/${id}`;
-                var_type = 'PATCH';
-                var_data = {
+            if (type == "PERPANJANG"){
+                var var_url  = `peminjaman/${id}`;
+                var var_type = 'PATCH';
+                var var_data = {
                             buku_id    : $('#buku_id').val(),
                             nama_siswa : $('#nama_siswa').val(),
                             tgl_pinjam : $('#tgl_pinjam').val(),
                             tgl_kembali: $('#tgl_kembali').val(),
                         };
-            }else{
+            }
+            if( type == "PENGEMBALIAN"){
                 var var_url  = `pengembalian/${id}`;
                 var var_type = 'PATCH';
-                    var_data = {
-                            detail     : dataDetail,
-                            nama_siswa : $('#nama_siswa').val(),
-                            tgl_pinjam : $('#tgl_pinjam').val(),
-                            tgl_kembali: $('#tgl_kembali').val(),
-                            hilang     : $('#hilang').val(),
-                        };
-                let dataDetail =[];
+                var dataDetail =[];
+                
                 $('.containerBuku').each(function(){
                     buku_id   = $(this).find('.buku_id').val();
                     detail_id = $(this).find('.detail_id').val();
                     status    = $(this).find('.status').val();
-
+                    
                     dataDetail.push({
                         detail_id: detail_id,
                         buku_id  : buku_id,
                         status   : status,
-                    });
+                    })
                 });
-            }
-            
+                
+                var var_data = {
+                    detail     : dataDetail,
+                    nama_siswa : $('#nama_siswa').val(),
+                    tgl_pinjam : $('#tgl_pinjam').val(),
+                    tgl_kembali: $('#tgl_kembali').val(),
+                    hilang     : $('#hilang').val(),
+                };
+            };
+            console.log(dataDetail);
+
             $.ajax({
                 url : var_url,
                 type: var_type,
@@ -195,7 +200,6 @@
             $('#nama_siswa').val('');
             $('#tgl_pinjam').val('');
             $('#tgl_kembali').val('');
-            $('#inputDenda').val('');
             $('#hilang').val('');
 
             $('.alert-danger').addClass('d-none');

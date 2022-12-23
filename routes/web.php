@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 route::group([
-    'middleware' => ['auth:sanctum'],
+    'middleware' => ['auth:sanctum', 'guestOrVerify'],
 ], function () {
     Route::get('/', [SiswaController::class, 'index'])->name('index');
     Route::get('/list', [SiswaController::class, 'getSiswa'])->name('siswa.list');

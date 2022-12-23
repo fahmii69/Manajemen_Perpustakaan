@@ -26,7 +26,8 @@ class PeminjamanBukuSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             $peminjaman = PeminjamanBuku::create(
                 [
-                    'user_id'     => User::inRandomOrder()->first()->id,
+                    'user_id'     => 1,
+                    // 'user_id'     => User::inRandomOrder()->first()->id,
                     'nama_siswa'  => Siswa::inRandomOrder()->first()->nama,
                     'tgl_pinjam'  => $faker->date(),
                     'tgl_kembali' => $faker->dateTimeInInterval('+1 week'),

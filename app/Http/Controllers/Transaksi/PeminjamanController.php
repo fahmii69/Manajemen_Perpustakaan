@@ -50,7 +50,6 @@ class PeminjamanController extends BaseController
                     return $data->getDetail->where('status', 'SEDANG_DIPINJAM')->pluck('judul_buku')->toArray();
                 })
                 ->addColumn('aksi', function ($data) {
-                    // if ($this->auth->can('peminjaman.edit'))
                     if ($this->roleName == 'Admin') {
                         return view('data_transaksi.peminjaman.tombol', compact('data'));
                     }
@@ -90,6 +89,7 @@ class PeminjamanController extends BaseController
                 new PeminjamanBuku($request->safe(
                     ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']
                 ));
+            $peminjaman->user_id = 1;
             $peminjaman->save();
 
             foreach ($request->buku_id as $buku_id) {
@@ -135,11 +135,6 @@ class PeminjamanController extends BaseController
      * @param PeminjamanBuku $peminjaman
      * @return JsonResponse
      */
-    // public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman)
-    // {
-    //     Gate::authorize('update', $peminjaman);
-    //     return 123;
-    // }
     public function update(PeminjamanEditRequest $request, PeminjamanBuku $peminjaman): JsonResponse
     {
         $response = [
@@ -150,15 +145,7 @@ class PeminjamanController extends BaseController
 
         try {
 
-            // $validation = 
             Gate::authorize('update', $peminjaman);
-
-            // if ($validation->denied()) {
-
-            //     Alert::error('Error', 'Post where error');
-
-            //     return redirect()->back();
-            // }
 
             $peminjaman->fill($request->safe(
                 ['nama_siswa', 'tgl_pinjam', 'tgl_kembali']

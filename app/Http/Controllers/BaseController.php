@@ -34,6 +34,8 @@ class BaseController extends Controller
             $this->auth     = User::find(auth()->user()->id);
             $this->roleName = $this->auth->getRoleNames()[0];
 
+            // dd($this->auth->getAllPermissions());
+
             return $next($request);
         });
     }

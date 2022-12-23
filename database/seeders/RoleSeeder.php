@@ -98,6 +98,12 @@ class RoleSeeder extends Seeder
                 'guard_name' => 'web',
                 'role'       => ['Admin'],
             ],
+            [
+                'name'       => 'kategori.index',
+                'alias'      => 'Index Kategori',
+                'guard_name' => 'web',
+                'role'       => ['Admin'],
+            ],
 
         ];
 

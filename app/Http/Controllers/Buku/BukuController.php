@@ -149,7 +149,6 @@ class BukuController extends BaseController
 
             return response()->json(['success' => true, 'message' => 'Data Kategori berhasil DIHAPUS']);
         } else {
-            // Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
             return response()->json(['success' => false, 'message' => 'Anda tidak memiliki akses untuk ke aksi ini 😝 !!!']);
         }
     }

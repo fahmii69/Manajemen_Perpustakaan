@@ -12,14 +12,14 @@ if (!function_exists('getSetting')) {
 }
 
 if (!function_exists('getDenda')) {
-    function getDenda($peminjaman)
+    function getDenda($pengembalian)
     {
-        $startDate = Carbon::parse($peminjaman->updated_at);
-        $endDate = Carbon::parse($peminjaman->tgl_kembali);
+        $startDate = Carbon::parse($pengembalian->updated_at);
+        $endDate = Carbon::parse($pengembalian->tgl_kembali);
 
         $days = $startDate->diffInDays($endDate);
         $denda = 0;
-        if ($days > 1) {
+        if ($days > 7) {
             $denda = getSetting('nominal_denda');
         };
 
@@ -27,11 +27,11 @@ if (!function_exists('getDenda')) {
     }
 
     if (!function_exists('getTotalDenda')) {
-        function getTotalDenda($peminjaman)
+        function getTotalDenda($pengembalian)
         {
             $total = 0;
-            $denda = $peminjaman->denda;
-            $hilang = $peminjaman->hilang;
+            $denda = $pengembalian->denda;
+            $hilang = $pengembalian->hilang;
             $total = $denda + $hilang;
 
 

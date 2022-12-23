@@ -100,10 +100,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="{{ route('buku.index') }}">Data Buku</a>
-                        @hasrole('Admin')
+                        @can('kategori.index')
                         <a class="collapse-item" href="{{ route('kategori.index') }}">Kategori Buku</a>
-                        @else
-                        @endhasrole
+                        @endcan
                     </div>
                 </div>
             </li>
@@ -118,10 +117,12 @@
                 <div id="collapseTransaksi" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        @hasrole('Admin')
+                        {{-- @hasrole('Admin') --}}
+                        @can('peminjaman.index')
                         <a class="collapse-item" href="{{ route('peminjaman.create') }}">Peminjaman</a>
-                        @else
-                        @endhasrole
+                        @endcan
+                        {{-- @else --}}
+                        {{-- @endhasrole --}}
                         <a class="collapse-item" href="{{ route('peminjaman.index') }}">Data Peminjaman</a>
                         <a class="collapse-item" href="{{ route('pengembalian.index') }}">Data Pengembalian</a>
                     </div>
