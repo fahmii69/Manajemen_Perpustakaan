@@ -68,11 +68,14 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
+                @hasrole('Admin')
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-magic"></i>
                     <span>Master Data</span>
                 </a>
+                @else
+                @endhasrole
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -80,6 +83,7 @@
                         <a class="collapse-item" href="{{ route('siswa.index') }}">Data Siswa</a>
                         <a class="collapse-item" href="{{ route('penerbit.index') }}">Data Penerbit</a>
                         <a class="collapse-item" href="utilities-animation.html">Administrator</a>
+    
                     </div>
                 </div>
             </li>
@@ -96,7 +100,10 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="{{ route('buku.index') }}">Data Buku</a>
+                        @hasrole('Admin')
                         <a class="collapse-item" href="{{ route('kategori.index') }}">Kategori Buku</a>
+                        @else
+                        @endhasrole
                     </div>
                 </div>
             </li>
@@ -111,7 +118,10 @@
                 <div id="collapseTransaksi" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
+                        @hasrole('Admin')
                         <a class="collapse-item" href="{{ route('peminjaman.create') }}">Peminjaman</a>
+                        @else
+                        @endhasrole
                         <a class="collapse-item" href="{{ route('peminjaman.index') }}">Data Peminjaman</a>
                         <a class="collapse-item" href="{{ route('pengembalian.index') }}">Data Pengembalian</a>
                     </div>
@@ -202,7 +212,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ url('sbadmin/img/undraw_profile.svg')}}">
                             </a>
@@ -229,7 +240,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                
+
                 <!-- Begin Page Content -->
                 @yield('content')
                 <!-- /.container-fluid -->
@@ -273,15 +284,14 @@
                 <div class="modal-footer">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    {{-- <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
-                     --}}
-                    <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        {{-- <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
+                        --}}
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                 this.closest('form').submit();">
-                {{ __('Log Out') }}
-            </x-responsive-nav-link>
-                    
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
+
                     </form>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Buku;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Buku\Katalog\BukuEditRequest;
 use App\Http\Requests\Buku\Katalog\BukuPostRequest;
@@ -17,7 +18,7 @@ use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
-class BukuController extends Controller
+class BukuController extends BaseController
 {
     /**
      * Page index
@@ -50,13 +51,19 @@ class BukuController extends Controller
     /**
      * create page.
      *
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         $kategori = KategoriBuku::get();
         $penerbit = PenerbitBuku::get();
-        return view('katalog_buku.buku.create', ['kategori' => $kategori, 'penerbit' => $penerbit]);
+
+        if ($this->auth->can('buku.create')) {
+            return view('katalog_buku.buku.create', ['kategori' => $kategori, 'penerbit' => $penerbit]);
+        } else {
+            Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -88,13 +95,19 @@ class BukuController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Buku $buku
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function edit(Buku $buku): View
+    public function edit(Buku $buku): View|RedirectResponse
     {
         $kategori = KategoriBuku::get();
         $penerbit = PenerbitBuku::get();
-        return view('katalog_buku.buku.edit', ['buku' => $buku, 'kategori' => $kategori, 'penerbit' => $penerbit]);
+
+        if ($this->auth->can('buku.create')) {
+            return view('katalog_buku.buku.edit', ['buku' => $buku, 'kategori' => $kategori, 'penerbit' => $penerbit]);
+        } else {
+            Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -131,8 +144,13 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku): JsonResponse
     {
-        Buku::destroy($buku->id);
+        if ($this->auth->can('buku.delete')) {
+            Buku::destroy($buku->id);
 
-        return response()->json(['success' => true, 'message' => 'Data Kategori berhasil DIHAPUS']);
+            return response()->json(['success' => true, 'message' => 'Data Kategori berhasil DIHAPUS']);
+        } else {
+            // Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
+            return response()->json(['success' => false, 'message' => 'Anda tidak memiliki akses untuk ke aksi ini 😝 !!!']);
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,7 +23,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@cogan.com',
                 'email_verified_at' => Carbon::now()->toDateTimeString(),
                 'password'   => Hash::make('admin'),
-                'role'       => Role::Admin->value,
+                'role'       => 'Admin',
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
@@ -33,11 +32,14 @@ class UserSeeder extends Seeder
                 'email' => 'zoel@cogan.com',
                 'email_verified_at' => Carbon::now()->toDateTimeString(),
                 'password'   => Hash::make('zoel'),
-                'role'       => Role::User->value,
+                'role'       => 'User',
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
 
         ]);
+
+        User::where('name', 'Admin')->first()->syncRoles('Admin');
+        User::where('name', 'Zoel')->first()->syncRoles('User');
     }
 }

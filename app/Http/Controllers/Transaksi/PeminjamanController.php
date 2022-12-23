@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transaksi;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaksi\PeminjamanEditRequest;
 use App\Http\Requests\Transaksi\PeminjamanPostRequest;
@@ -22,7 +23,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Gate;
 
 
-class PeminjamanController extends Controller
+class PeminjamanController extends BaseController
 {
     /**
      * Page index
@@ -31,7 +32,6 @@ class PeminjamanController extends Controller
      */
     public function index(): View
     {
-
         return view('data_transaksi.peminjaman.index');
     }
 
@@ -50,7 +50,10 @@ class PeminjamanController extends Controller
                     return $data->getDetail->where('status', 'SEDANG_DIPINJAM')->pluck('judul_buku')->toArray();
                 })
                 ->addColumn('aksi', function ($data) {
-                    return view('data_transaksi.peminjaman.tombol', compact('data'));
+                    // if ($this->auth->can('peminjaman.edit'))
+                    if ($this->roleName == 'Admin') {
+                        return view('data_transaksi.peminjaman.tombol', compact('data'));
+                    }
                 })
                 ->make(true);
         }
@@ -59,13 +62,18 @@ class PeminjamanController extends Controller
     /**
      * Show the form for creating a new resource.  
      *
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         $siswa = Siswa::get();
         $judul = Buku::get();
-        return view('data_transaksi.peminjaman.create', ['siswa' => $siswa, 'judul' => $judul]);
+        if ($this->auth->can('peminjaman.create')) {
+            return view('data_transaksi.peminjaman.create', ['siswa' => $siswa, 'judul' => $judul]);
+        } else {
+            Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
+            return redirect()->back();
+        }
     }
 
     /**

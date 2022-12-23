@@ -92,6 +92,7 @@
             if (e.value === true) {
                 let token = $('meta[name="csrf-token"]').attr('content');
                 var _url = `/buku/${id}`;
+                // console.log(123);
 
                 $.ajax({
                     type: 'delete',
@@ -99,8 +100,11 @@
                     data: {
                         _token: token
                     },
+
                     success: function (resp) {
+                        console.log(123);
                         if (resp.success) {
+
                             const Toast = Swal.mixin({
                                 toast: true,
                                 position: 'top-end',
@@ -120,17 +124,15 @@
                                 icon: 'success',
                                 title: 'Data Buku Berhasil Dihapus'
                             })
+                        } else {
+                            swal.fire("Error!", resp.message, "error");
                         }
                     },
-                    error: function (resp) {
-                        swal.fire("Error!", 'Something went wrong.', "error");
-                    }
                 });
 
             } else {
                 e.dismiss;
             }
-
         }, function (dismiss) {
             return false;
         })

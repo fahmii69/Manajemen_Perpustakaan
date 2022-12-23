@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Siswa;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Siswa\SiswaEditRequest;
 use App\Http\Requests\Siswa\SiswaPostRequest;
+use App\Models\Buku\Buku;
 use App\Models\Siswa;
+use App\Models\Transaksi\PeminjamanBuku;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -23,7 +25,12 @@ class SiswaController extends Controller
      */
     public function index(): View
     {
-        return view('index');
+        $buku  = Buku::get();
+        $siswa = Siswa::get();
+        $peminjaman = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->get();
+        $pengembalian = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->get();
+
+        return view('index', compact('buku', 'siswa', 'peminjaman', 'pengembalian'));
     }
 
     /**

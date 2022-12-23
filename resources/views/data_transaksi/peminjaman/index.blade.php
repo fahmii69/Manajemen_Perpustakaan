@@ -3,6 +3,7 @@
 @section('title','Data Peminjaman')
 
 @section('content')
+@include('sweetalert::alert')
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -10,7 +11,6 @@
         <span class="h3 mb-4 text-gray-800">Data Peminjaman</span>
     </i>
     <div class="card shadow mb-4">
-        @include('sweetalert::alert')
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="peminjaman-dataTable" width="100%" cellspacing="0">
