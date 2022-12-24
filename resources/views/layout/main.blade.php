@@ -45,7 +45,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-chess-knight"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Perpustakaan <sup>Zoel</sup></div>
+                <div class="sidebar-brand-text mx-3">{{ getSetting('nama_perpus')}}</div>
             </a>
 
             <!-- Divider -->
@@ -136,7 +136,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/about') }}">
+                <a class="nav-link" href="{{ url('/laporan') }}">
                     <i class="fas fa-paper-plane"></i>
                     <span>Laporan</span></a>
             </li>

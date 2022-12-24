@@ -99,6 +99,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property string $description
  * @property string $value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -106,6 +107,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Setting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Setting query()
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Setting whereUpdatedAt($value)

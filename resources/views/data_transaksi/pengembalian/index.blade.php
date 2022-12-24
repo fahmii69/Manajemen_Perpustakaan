@@ -22,7 +22,7 @@
                             <th>Tgl. Kembali</th>
                             <th>Tgl. Pengembalian</th>
                             <th>Denda Terlambat</th>
-                            <th>Denda Hilang</th>
+                            <th>Denda Kehilangan</th>
                             <th>Total Denda</th>
                         </tr>
                     </thead>

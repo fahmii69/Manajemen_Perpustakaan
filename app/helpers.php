@@ -11,6 +11,13 @@ if (!function_exists('getSetting')) {
     }
 }
 
+if (!function_exists('getDescription')) {
+    function getDescription($key)
+    {
+        return Setting::whereName($key)->first()->description;
+    }
+}
+
 if (!function_exists('getDenda')) {
     function getDenda($pengembalian)
     {
@@ -38,4 +45,21 @@ if (!function_exists('getDenda')) {
             return $total;
         }
     }
+
+    if (!function_exists('identitasAplikasi')) {
+        function identitasAplikasi()
+        {
+            $data = [
+                'nama_perpus',
+                'alamat',
+                'email',
+                'telepon',
+                'nominal_denda',
+            ];
+
+            return $data;
+        }
+    }
+
+    // }
 }

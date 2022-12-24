@@ -3,8 +3,10 @@
 use App\Http\Controllers\Buku\BukuController;
 use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
+use App\Http\Controllers\IdentitasController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Siswa\SiswaController;
+use App\Http\Controllers\Transaksi\LaporanController;
 use App\Http\Controllers\Transaksi\PeminjamanController;
 use App\Http\Controllers\Transaksi\PengembalianController;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +22,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-route::group([
+
+
+Route::get('/about', [IdentitasController::class, 'index']);
+Route::patch('/about', [IdentitasController::class, 'update'])->name('about.update');
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::post('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
+
+Route::group([
     'middleware' => ['auth:sanctum', 'guestOrVerify'],
 ], function () {
+
     Route::get('/', [SiswaController::class, 'index'])->name('index');
     Route::get('/list', [SiswaController::class, 'getSiswa'])->name('siswa.list');
 

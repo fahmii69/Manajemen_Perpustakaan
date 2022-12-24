@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transaksi;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaksi\PeminjamanEditRequest;
 use App\Models\Buku\Buku;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\View as FacadesView;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
-class PengembalianController extends Controller
+class PengembalianController extends BaseController
 {
     /**
      * Page index
@@ -26,7 +27,7 @@ class PengembalianController extends Controller
      */
     public function index(): View
     {
-        return view('data_transaksi.peminjaman.pengembalian');
+        return view('data_transaksi.pengembalian.index');
     }
 
     public function getPengembalian(Request $request)

@@ -18,7 +18,28 @@ class SettingSeeder extends Seeder
         Setting::insert([
             [
                 'name'  => 'nominal_denda',
+                'description' => 'Denda Terlambat',
                 'value' => '15000',
+            ],
+            [
+                'name'  => 'nama_perpus',
+                'description' => 'Nama Perpus',
+                'value' => 'Perpustakan Zoel',
+            ],
+            [
+                'name'  => 'alamat',
+                'description' => 'Alamat',
+                'value' => 'Jalan Sesama',
+            ],
+            [
+                'name'  => 'email',
+                'description' => 'Email',
+                'value' => 'zoel@cogan.com',
+            ],
+            [
+                'name'  => 'telepon',
+                'description' => 'No Telepon',
+                'value' => '081234567890',
             ],
         ]);
     }
