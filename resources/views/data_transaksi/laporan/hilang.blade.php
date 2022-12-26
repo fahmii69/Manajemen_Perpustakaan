@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title','Data Pengembalian')
+@section('title','Data Buku Hilang')
 
 @section('content')
 @include('sweetalert::alert')
@@ -8,7 +8,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <i class="fas fa-clock">
-        <span class="h3 mb-4 text-gray-800">Data Pengembalian</span>
+        <span class="h3 mb-4 text-gray-800">Data Buku Hilang</span>
     </i>
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -17,7 +17,7 @@
                 <input type="text" name="daterange" class="form-control row" value="" id="daterange" />
                 <br>
                 <button class="row btn btn-success btn-icon-split btn-export">
-                    <input type="hidden" name="jenis" class="form-control row" value="Pengembalian" id="jenis" />
+                    <input type="hidden" name="jenis" class="form-control row" value="BukuHilang" id="jenis" />
                     <span class="icon text-white-50">
                         <i class="fas fa-file"></i>
                     </span>
@@ -26,17 +26,12 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table class="table table-bordered" id="pengembalian-dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="bukuHilang-dataTable" width="100%" cellspacing="0">
                     <thead>
-                            <th>No. Pinjam</th>
-                            <th>Judul</th>
+                            <th>#</th>
+                            <th>Buku</th>
                             <th>Nama Siswa</th>
-                            <th>Tgl. Pinjam</th>
-                            <th>Tgl. Kembali</th>
-                            <th>Tgl. Pengembalian</th>
-                            <th>Denda Terlambat</th>
-                            <th>Denda Kehilangan</th>
-                            <th>Total Denda</th>
+                            <th>Tgl. Laporan Hilang</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,10 +69,10 @@
     });
     
     $(document).ready(function () {
-        var table = $('#pengembalian-dataTable').DataTable({
+        var table = $('#bukuHilang-dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('pengembalian.list')}}",
+            ajax: "{{route('laporan.hilang.list')}}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -85,36 +80,16 @@
                     searchable: false,
                 },
                 {
-                    data: 'detail_pinjaman',
-                    name: 'getDetail.buku_id'
+                    data: 'buku_id',
+                    name: 'buku.buku_id'
                 },
                 {
-                    data: 'nama_siswa',
-                    name: 'nama_siswa'
-                },
-                {
-                    data: 'tgl_pinjam',
-                    name: 'tgl_pinjam'
-                },
-                {
-                    data: 'tgl_kembali',
-                    name: 'tgl_kembali'
+                    data: 'peminjaman_id',
+                    name: 'peminjaman.nama_siswa'
                 },
                 {
                     data: 'updated_at',
-                    name: 'updated_at',
-                },                
-                {
-                    data: 'denda',
-                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
-                },
-                {
-                    data: 'hilang',
-                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
-                },
-                {
-                    data: 'total',
-                    render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )
+                    name: 'updated_at'
                 },
             ]
         });

@@ -22,13 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-Route::get('/about', [IdentitasController::class, 'index']);
-Route::patch('/about', [IdentitasController::class, 'update'])->name('about.update');
-Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-Route::post('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
-
 Route::group([
     'middleware' => ['auth:sanctum', 'guestOrVerify'],
 ], function () {
@@ -44,6 +37,15 @@ Route::group([
 
     Route::get('/pengembalian/get', [PengembalianController::class, 'getPengembalian'])->name('pengembalian.list');
     Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/hilang', [LaporanController::class, 'indexBukuHilang'])->name('laporan.hilang.index');
+    Route::get('/laporan/hilang/data', [LaporanController::class, 'getBukuHilang'])->name('laporan.hilang.list');
+
+    Route::get('/about', [IdentitasController::class, 'index']);
+    Route::patch('/about', [IdentitasController::class, 'update'])->name('about.update');
+
+    Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\Transaksi\PeminjamanDetail;
 use App\Models\Transaksi\PeminjamanBuku;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -29,7 +30,7 @@ class PeminjamanBukuSeeder extends Seeder
                     'user_id'     => 1,
                     // 'user_id'     => User::inRandomOrder()->first()->id,
                     'nama_siswa'  => Siswa::inRandomOrder()->first()->nama,
-                    'tgl_pinjam'  => $faker->date(),
+                    'tgl_pinjam'  => Carbon::today()->subDays(rand(0, 365)),
                     'tgl_kembali' => $faker->dateTimeInInterval('+1 week'),
                     'status'      => $faker->randomElements(['SEDANG_DIPINJAM', 'DIKEMBALIKAN'])[0],
                     'created_at'  => now()->toDateTimeString(),

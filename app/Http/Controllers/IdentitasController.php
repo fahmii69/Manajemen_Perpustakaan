@@ -3,35 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class IdentitasController extends BaseController
 {
-    public function index()
+    /**
+     * /about page index.
+     *
+     * @return View
+     */
+    public function index(): View
     {
         $data = identitasAplikasi();
         return view('identitas', compact('data'));
     }
 
-    public function update(Request $request)
+    /**
+     * updating data on settings table.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Request $request): RedirectResponse
     {
-        // dd($request->all());
-        // dd($data);
-        // $data = $request->key;
-        // $waw = $request->except('_method', '_token');
+        $identitas = $request->input('data');
 
-        // $data = $request->alamat;
-        foreach ($request->except('_method', '_token') as $key => $data) {
-            // $gas = $request->$key;
-            $save = $key = $data;
-            dd($save);
+        foreach ($identitas as $key => $v) {
 
-            // $setting = $this->settings->value = $data;
-            // $setting->update();
-            // dd($setting);
-            // $setting->value = $v;
-            // $data->update();
+            $searchIdentitas = Setting::whereName($key)->first();
+            $searchIdentitas->value = $v;
+            $searchIdentitas->save();
         };
-        $save->update();
+
+        return redirect('/about');
     }
 }

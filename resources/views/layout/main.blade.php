@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 
 
 </head>
@@ -130,15 +131,24 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporan"
+                    aria-expanded="true" aria-controls="collapseLaporan">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Data Laporan</span>
+                </a>
+                <div id="collapseLaporan" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('laporan.hilang.index') }}">Buku Hilang</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
                 <a class="nav-link" href="{{ url('/about') }}">
                     <i class="fas fa-laugh-wink"></i>
                     <span>Identitas Aplikasi</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/laporan') }}">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Laporan</span></a>
             </li>
 
             <!-- Divider -->
@@ -331,6 +341,9 @@
     </script>
     <!-- js untuk select2  -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     @yield('script')
 </body>

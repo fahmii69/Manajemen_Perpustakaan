@@ -114,7 +114,8 @@ class PengembalianController extends BaseController
                     $buku->save();
                 }
 
-                $detail->status = $arrayBuku['status'];
+                $detail->status     = $arrayBuku['status'];
+                $detail->updated_at = Carbon::now();
                 $detail->save();
             }
             $response['success'] = true;

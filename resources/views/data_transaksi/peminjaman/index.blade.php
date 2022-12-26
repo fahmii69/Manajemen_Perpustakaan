@@ -12,6 +12,19 @@
     </i>
     <div class="card shadow mb-4">
         <div class="card-body">
+            <div class="col-md-4">
+                <label for="" class="row">Date Range</label>
+                <input type="text" name="daterange" class="form-control row" value="" id="daterange" />
+                <br>
+                <button class="row btn btn-success btn-icon-split btn-export">
+                    <input type="hidden" name="jenis" class="form-control row" value="Peminjaman" id="jenis" />
+                    <span class="icon text-white-50">
+                        <i class="fas fa-file"></i>
+                    </span>
+                    <span class="text" >Export Excel</span>
+                </button>
+            </div>
+            <br>
             <div class="table-responsive">
                 <table class="table table-bordered" id="peminjaman-dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -37,6 +50,28 @@
 @section('script')
 @include('layout.script');
 <script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale:{
+                format: 'DD/MM/YYYY'
+            }
+        }, function(startDate, endDate, label) {
+            console.log(startDate, endDate)
+            console.log("A new date selection was made: " + startDate.format('YYYY-MM-DD') + ' to ' + endDate.format('YYYY-MM-DD'));
+            $('input[name="daterange"]').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+            $('input[name="daterange"]').html(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+        });
+    });
+
+    $(document).on('click', '.btn-export', function(){
+        let url = "{{ route('laporan.export',['daterange' => 'x1' , 'jenis' => 'x2']) }}";
+        url = url.replace("x1", $('#daterange').val());
+        url = url.replace("x2", $('#jenis').val());
+        url = url.replaceAll("&amp;", "&");
+        window.open(url, '_blank');
+    });
+
     $(document).ready(function () {
         var peminjamanId = "";
         var type         = "";
