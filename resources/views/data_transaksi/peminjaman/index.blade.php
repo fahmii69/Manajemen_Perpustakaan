@@ -126,7 +126,6 @@
                     $('#tgl_pinjam').val(response.peminjaman.tgl_pinjam);
                     $('#tgl_kembali').val(response.peminjaman.tgl_kembali);
                     $('#tgl_kembali').attr('readonly', false);
-                    $('#inputDenda').addClass('disappear');
                 },
             });
         });
@@ -151,7 +150,6 @@
                     $('#tgl_pinjam').val(response.pengembalian.tgl_pinjam);
                     $('#tgl_kembali').val(response.pengembalian.tgl_kembali);
                     $('#tgl_kembali').attr('readonly', true);
-                    $('#inputDenda').removeClass('disappear');
                 },
             });
         })
@@ -170,29 +168,31 @@
             if( type == "PENGEMBALIAN"){
                 var var_url  = `pengembalian/${id}`;
                 var var_type = 'PATCH';
-                var dataDetail =[];
+                var dataDetail = [];
+                var bukuHilangValue = 0;
                 
                 $('.containerBuku').each(function(){
                     buku_id   = $(this).find('.buku_id').val();
                     detail_id = $(this).find('.detail_id').val();
                     status    = $(this).find('.status').val();
+                    hilang    = $(this).find('.bukuHilang').val();
                     
                     dataDetail.push({
                         detail_id: detail_id,
                         buku_id  : buku_id,
                         status   : status,
+                        hilang   : Number(hilang),
                     })
                 });
-                
+
                 var var_data = {
                     detail     : dataDetail,
                     nama_siswa : $('#nama_siswa').val(),
                     tgl_pinjam : $('#tgl_pinjam').val(),
                     tgl_kembali: $('#tgl_kembali').val(),
-                    hilang     : $('#hilang').val(),
+                    hilang     : dataDetail.map(data => data.hilang).reduce((prev, curr) => prev + curr, 0),
                 };
             };
-            console.log(dataDetail);
 
             $.ajax({
                 url : var_url,
@@ -242,6 +242,14 @@
 
             $('.alert-success').addClass('d-none');
             $('.alert-success').html('');
+        });
+
+        $(document).on('change', '.status', function(){
+            const bool = Boolean($(this).val() === "DIKEMBALIKAN");
+            $(this).closest('.containerBuku').find('.bukuHilang').attr('readonly', bool);
+            // $('.bukuHilang').attr('readonly', bool);
+            // let buku_id = $(this).select2().find(":selected").data("buku-id");
+            // $('.input-buku-' + buku_id).attr('readonly', bool);
         });
 
         $(document).on('click', '.tombol-simpan', function(){

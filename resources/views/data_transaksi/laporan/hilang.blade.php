@@ -32,6 +32,7 @@
                             <th>Buku</th>
                             <th>Nama Siswa</th>
                             <th>Tgl. Laporan Hilang</th>
+                            <th>Denda</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,10 @@
                 {
                     data: 'updated_at',
                     name: 'updated_at'
+                },
+                {
+                    data: 'hilang',
+                    name: 'hilang'
                 },
             ]
         });

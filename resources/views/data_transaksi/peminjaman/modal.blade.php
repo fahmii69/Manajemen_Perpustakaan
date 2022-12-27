@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Form</h1>
@@ -42,10 +42,6 @@
                     <div class="col-sm-8">
                         <input type="date" class="form-control" readonly="readonly" id="tgl_kembali" name="tgl_kembali">
                     </div>
-                </div>
-                
-                <div id='inputDenda' class ='disappear'>
-                <x-tombol_denda />
                 </div>
                 <!-- AKHIR FORM -->
             </div>

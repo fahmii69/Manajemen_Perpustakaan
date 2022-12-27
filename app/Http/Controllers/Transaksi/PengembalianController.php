@@ -93,6 +93,7 @@ class PengembalianController extends BaseController
         ];
 
         try {
+            // dd($request->all());
 
             Gate::authorize('update', $pengembalian);
             $pengembalian->fill($request->safe(
@@ -115,6 +116,7 @@ class PengembalianController extends BaseController
                 }
 
                 $detail->status     = $arrayBuku['status'];
+                $detail->hilang     = $arrayBuku['hilang'];
                 $detail->updated_at = Carbon::now();
                 $detail->save();
             }

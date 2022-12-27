@@ -11,7 +11,7 @@ class PeminjamanDetail extends Model
 {
     use HasFactory;
     protected $table = "peminjaman_details";
-    protected $fillable = ['buku_id', 'peminjaman_id', 'status'];
+    protected $fillable = ['buku_id', 'peminjaman_id', 'status', 'hilang'];
 
     public $appends = [
         'judul_buku'
