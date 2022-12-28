@@ -29,6 +29,6 @@ class PeminjamanDetail extends Model
 
     public function getJudulBukuAttribute()
     {
-        return $this->buku->judul;
+        return $this->buku?->judul;
     }
 }

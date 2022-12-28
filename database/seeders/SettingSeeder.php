@@ -41,6 +41,11 @@ class SettingSeeder extends Seeder
                 'description' => 'No Telepon',
                 'value' => '081234567890',
             ],
+            [
+                'name'  => 'limit_hari_pinjam',
+                'description' => 'Limit hari pinjam',
+                'value' => '7',
+            ],
         ]);
     }
 }

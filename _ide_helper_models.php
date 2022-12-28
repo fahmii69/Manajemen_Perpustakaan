@@ -186,6 +186,7 @@ namespace App\Models\Transaksi{
  * @property int $peminjaman_id
  * @property int $buku_id
  * @property string|null $status
+ * @property string|null $hilang
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Buku\Buku $buku
@@ -196,6 +197,7 @@ namespace App\Models\Transaksi{
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail query()
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereBukuId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereHilang($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail wherePeminjamanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PeminjamanDetail whereStatus($value)
@@ -219,6 +221,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaksi\PeminjamanBuku[] $peminjamanId
+ * @property-read int|null $peminjaman_id_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles

@@ -144,11 +144,10 @@
                 </div>
             </li>
 
-
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/about') }}">
-                    <i class="fas fa-laugh-wink"></i>
-                    <span>Identitas Aplikasi</span></a>
+                    <i class="fas fa-cogs"></i>
+                    <span>Settings</span></a>
             </li>
 
             <!-- Divider -->

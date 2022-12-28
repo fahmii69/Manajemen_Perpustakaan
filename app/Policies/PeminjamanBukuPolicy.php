@@ -26,8 +26,7 @@ class PeminjamanBukuPolicy
      * make policy for update(pencil button)
      *
      * @param User|null $user
-     * @param Post $post
-     * @param string|null $secret
+     * @param PeminjamanBuku $peminjaman
      * @return Response
      */
     public function update(?User $user, PeminjamanBuku $peminjaman): Response

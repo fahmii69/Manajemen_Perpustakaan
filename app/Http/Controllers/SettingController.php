@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class IdentitasController extends BaseController
+class SettingController extends BaseController
 {
     /**
      * /about page index.
@@ -16,8 +16,8 @@ class IdentitasController extends BaseController
      */
     public function index(): View
     {
-        $data = identitasAplikasi();
-        return view('identitas', compact('data'));
+        $data = settingData();
+        return view('setting', compact('data'));
     }
 
     /**
@@ -28,13 +28,13 @@ class IdentitasController extends BaseController
      */
     public function update(Request $request): RedirectResponse
     {
-        $identitas = $request->input('data');
+        $setting = $request->input('data');
 
-        foreach ($identitas as $key => $v) {
+        foreach ($setting as $key => $v) {
 
-            $searchIdentitas = Setting::whereName($key)->first();
-            $searchIdentitas->value = $v;
-            $searchIdentitas->save();
+            $searchSetting = Setting::whereName($key)->first();
+            $searchSetting->value = $v;
+            $searchSetting->save();
         };
 
         return redirect('/about');

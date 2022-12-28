@@ -47,20 +47,6 @@
 @section('script')
 @include('layout.script');
 <script>
-        $(function() {
-        $('input[name="daterange"]').daterangepicker({
-            opens: 'left',
-            locale:{
-                format: 'DD/MM/YYYY'
-            }
-        }, function(startDate, endDate, label) {
-            console.log(startDate, endDate)
-            console.log("A new date selection was made: " + startDate.format('YYYY-MM-DD') + ' to ' + endDate.format('YYYY-MM-DD'));
-            $('input[name="daterange"]').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
-            $('input[name="daterange"]').html(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
-        });
-    });
-
     $(document).on('click', '.btn-export', function(){
         let url = "{{ route('laporan.export',['daterange' => 'x1' , 'jenis' => 'x2']) }}";
         url = url.replace("x1", $('#daterange').val());
@@ -98,6 +84,36 @@
                 },
             ]
         });
+
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${year}-${month}-${day}`;
+        fetch_data(currentDate, currentDate);
+
+        function fetch_data(startDate, endDate)
+        {
+            table.ajax.url(`/laporan/hilang/data?action=fetch&startDate=${startDate}&endDate=${endDate}`).load()
+        
+        };
+
+        $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale:{
+                format: 'DD/MM/YYYY'
+            }
+        }, function(startDate, endDate, label) {
+            console.log(startDate, endDate)
+            console.log("A new date selection was made: " + startDate.format('YYYY-MM-DD') + ' to ' + endDate.format('YYYY-MM-DD'));
+            $('input[name="daterange"]').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+            $('input[name="daterange"]').html(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+            fetch_data(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+        });
+    });
         
     });
 </script>

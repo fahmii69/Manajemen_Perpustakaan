@@ -5,6 +5,8 @@
 @section('content')
 @include('sweetalert::alert')
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <i class="fas fa-clock">
@@ -12,34 +14,41 @@
     </i>
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="col-md-4">
-                <label for="" class="row">Date Range</label>
-                <input type="text" name="daterange" class="form-control row" value="" id="daterange" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <canvas id="myChart" height="300" style="display: block; width: 1576px; height: 300px;" ></canvas>
+                </div>
+                <div class="col-md-4 p-4">
+                    <label for="" class="row">Date Range</label>
+                    <input type="text" name="daterange" class="form-control row" value="" id="daterange" />
+                    <br>
+                    <button class="row btn btn-success btn-icon-split btn-export">
+                        <input type="hidden" name="jenis" class="form-control row" value="Peminjaman" id="jenis" />
+                        <span class="icon text-white-50">
+                            <i class="fas fa-file"></i>
+                        </span>
+                        <span class="text" >Export Excel</span>
+                    </button>
+                </div>
                 <br>
-                <button class="row btn btn-success btn-icon-split btn-export">
-                    <input type="hidden" name="jenis" class="form-control row" value="Peminjaman" id="jenis" />
-                    <span class="icon text-white-50">
-                        <i class="fas fa-file"></i>
-                    </span>
-                    <span class="text" >Export Excel</span>
-                </button>
-            </div>
-            <br>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="peminjaman-dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No. Pinjam</th>
-                            <th>Judul</th>
-                            <th>Nama Siswa</th>
-                            <th>Tgl. Pinjam</th>
-                            <th>Tgl. Kembali</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="peminjaman-dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>No. Pinjam</th>
+                                    <th>Judul</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Tgl. Pinjam</th>
+                                    <th>Tgl. Kembali</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -50,20 +59,6 @@
 @section('script')
 @include('layout.script');
 <script>
-    $(function() {
-        $('input[name="daterange"]').daterangepicker({
-            opens: 'left',
-            locale:{
-                format: 'DD/MM/YYYY'
-            }
-        }, function(startDate, endDate, label) {
-            console.log(startDate, endDate)
-            console.log("A new date selection was made: " + startDate.format('YYYY-MM-DD') + ' to ' + endDate.format('YYYY-MM-DD'));
-            $('input[name="daterange"]').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
-            $('input[name="daterange"]').html(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
-        });
-    });
-
     $(document).on('click', '.btn-export', function(){
         let url = "{{ route('laporan.export',['daterange' => 'x1' , 'jenis' => 'x2']) }}";
         url = url.replace("x1", $('#daterange').val());
@@ -71,15 +66,17 @@
         url = url.replaceAll("&amp;", "&");
         window.open(url, '_blank');
     });
-
+    
     $(document).ready(function () {
+
         var peminjamanId = "";
         var type         = "";
-
         var table = $('#peminjaman-dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('peminjaman.list')}}",
+            ajax: {
+                url:"{{ route('peminjaman.list') }}",
+            },
             columns: [{
                     data      : 'DT_RowIndex',
                     name      : 'DT_RowIndex',
@@ -99,7 +96,7 @@
                     name: 'tgl_pinjam'
                 },
                 {
-                    data: 'tgl_kembali',
+                data: 'tgl_kembali',
                     name: 'tgl_kembali'
                 },
                 {
@@ -108,6 +105,79 @@
                 },
             ]
         });
+
+        function fetch_data(startDate, endDate)
+        {
+            table.ajax.url(`/peminjaman/get?action=fetch&startDate=${startDate}&endDate=${endDate}`).load()
+        
+            $.ajax({
+                type: "GET",
+                url: `/peminjaman/chart?action=fetch&startDate=${startDate}&endDate=${endDate}`,
+                success: function (response) {
+
+                    var labels = response.data.map(function (e) {
+                        return e.tgl_pinjam
+                    })
+
+                    var data = response.data.map(function (e) {
+                        return e.total
+                    })
+
+                    console.log(response.data, labels, data);
+
+                    var ctx = $('#myChart');
+                    var config = {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Jumlah Buku Yang Dipinjam',
+                                data: data,
+                                backgroundColor: 'rgba(75, 192, 192, 1)',
+
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    };
+                    var chart = new Chart(ctx, config);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseJSON);
+                }
+            });
+        };
+
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                locale:{
+                    format: 'DD/MM/YYYY'
+                }
+            }, function(startDate, endDate, label) {
+                console.log(startDate, endDate)
+                console.log("A new date selection was made: " + startDate.format('YYYY-MM-DD') + ' to ' + endDate.format('YYYY-MM-DD'));
+                $('input[name="daterange"]').val(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+                $('input[name="daterange"]').html(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+                fetch_data(startDate.format('YYYY-MM-DD'), endDate.format('YYYY-MM-DD'));
+            });
+        });
+
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${year}-${month}-${day}`;
+        fetch_data(currentDate, currentDate);
 
         // 02_PROSES PERPANJANG 
         $(document).on('click', '.tombol-edit', function (e) {
@@ -261,6 +331,7 @@
             
             savePeminjaman(peminjamanId, type);
         });
+
     });
 </script>
 @endsection

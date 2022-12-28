@@ -46,8 +46,8 @@ if (!function_exists('getDenda')) {
         }
     }
 
-    if (!function_exists('identitasAplikasi')) {
-        function identitasAplikasi()
+    if (!function_exists('settingData')) {
+        function settingData()
         {
             $data = [
                 'nama_perpus',
@@ -55,6 +55,7 @@ if (!function_exists('getDenda')) {
                 'email',
                 'telepon',
                 'nominal_denda',
+                'limit_hari_pinjam',
             ];
 
             return $data;

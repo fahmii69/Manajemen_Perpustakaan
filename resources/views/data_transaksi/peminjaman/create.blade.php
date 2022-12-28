@@ -53,7 +53,7 @@
                     <div class="col-sm-8">
                         <input type="date" class="form-control @error('tgl_kembali') is-invalid @enderror"
                             id="tgl_kembali" name="tgl_kembali" readonly
-                            value="{{ date('Y-m-d', strtotime('+1 week'))}}">
+                            value="{{ date('Y-m-d', strtotime("+$limitDay day"))}}">
                         @error('tgl_kembali')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -109,7 +109,7 @@
             ++i;
 
             $("#addJudulBuku").append(
-                `<br><div class="containerJudulBuku row">
+                `<div class="containerJudulBuku row mt-3">
                     <div class="col-md-4">
                         <label for="judul">
                             </label>

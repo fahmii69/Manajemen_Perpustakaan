@@ -33,7 +33,7 @@ class PengembalianController extends BaseController
     public function getPengembalian(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->latest('updated_at');
+            $data = PeminjamanBuku::whereStatus('DIKEMBALIKAN')->whereBetween('updated_at', [$request->startDate  . " 00:00:00", $request->endDate  . " 23:59:59"])->latest('updated_at');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('detail_pinjaman', function ($data) {

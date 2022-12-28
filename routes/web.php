@@ -3,7 +3,7 @@
 use App\Http\Controllers\Buku\BukuController;
 use App\Http\Controllers\Buku\KategoriBukuController;
 use App\Http\Controllers\Buku\PenerbitBukuController;
-use App\Http\Controllers\IdentitasController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Siswa\SiswaController;
 use App\Http\Controllers\Transaksi\LaporanController;
@@ -33,6 +33,7 @@ Route::group([
     Route::resource('/buku', BukuController::class);
 
     Route::get('/peminjaman/get', [PeminjamanController::class, 'getPeminjaman'])->name('peminjaman.list');
+    Route::get('/peminjaman/chart', [PeminjamanController::class, 'chart'])->name('peminjaman.chart');
     Route::resource('/peminjaman', PeminjamanController::class);
 
     Route::get('/pengembalian/get', [PengembalianController::class, 'getPengembalian'])->name('pengembalian.list');
@@ -42,8 +43,8 @@ Route::group([
     Route::get('/laporan/hilang', [LaporanController::class, 'indexBukuHilang'])->name('laporan.hilang.index');
     Route::get('/laporan/hilang/data', [LaporanController::class, 'getBukuHilang'])->name('laporan.hilang.list');
 
-    Route::get('/about', [IdentitasController::class, 'index']);
-    Route::patch('/about', [IdentitasController::class, 'update'])->name('about.update');
+    Route::get('/about', [SettingController::class, 'index']);
+    Route::patch('/about', [SettingController::class, 'update'])->name('about.update');
 
     Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
 

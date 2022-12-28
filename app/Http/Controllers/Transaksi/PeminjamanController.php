@@ -43,7 +43,7 @@ class PeminjamanController extends BaseController
     public function getPeminjaman(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->latest('id');
+            $data = PeminjamanBuku::whereStatus('SEDANG_DIPINJAM')->whereBetween('tgl_pinjam', [$request->startDate  . " 00:00:00", $request->endDate  . " 23:59:59"])->latest('id');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('detail_pinjaman', function ($data) {
@@ -58,6 +58,27 @@ class PeminjamanController extends BaseController
         }
     }
 
+    public function chart(Request $request)
+    {
+        $data = PeminjamanDetail::query()
+            ->whereBetween('tgl_pinjam', [$request->startDate  . " 00:00:00", $request->endDate . " 23:59:59"])
+            ->join('peminjaman_bukus', 'peminjaman_bukus.id', 'peminjaman_details.peminjaman_id')
+            ->whereHas('peminjaman', function ($q) {
+                $q->whereStatus('SEDANG_DIPINJAM');
+            })
+            ->select(DB::raw('count(*) as total'), 'peminjaman_bukus.tgl_pinjam')
+            ->orderBy('peminjaman_bukus.tgl_pinjam')
+            ->groupBy('peminjaman_bukus.tgl_pinjam')
+            ->get();
+
+        // dd($data);
+
+        return response()->json(['data' => $data, 'success' => true], 200);
+        // dd($data[0]);
+
+        // return ['data' => $data];
+    }
+
     /**
      * Show the form for creating a new resource.  
      *
@@ -67,8 +88,9 @@ class PeminjamanController extends BaseController
     {
         $siswa = Siswa::get();
         $judul = Buku::get();
+        $limitDay = getSetting('limit_hari_pinjam');
         if ($this->auth->can('peminjaman.create')) {
-            return view('data_transaksi.peminjaman.create', ['siswa' => $siswa, 'judul' => $judul]);
+            return view('data_transaksi.peminjaman.create', ['siswa' => $siswa, 'judul' => $judul, 'limitDay' => $limitDay]);
         } else {
             Alert::error('Error', 'Anda tidak memiliki akses untuk ke halaman ini 😝 !!!');
             return redirect()->back();

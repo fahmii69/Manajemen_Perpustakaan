@@ -1,12 +1,12 @@
 @extends('layout/main')
 
-@section('title','Identitas | Identitas Aplikasi')
+@section('title','Setting | Setting Aplikasi')
 
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Identitas Aplikasi</h1>
+    <h1 class="h3 mb-4 text-gray-800">Setting Aplikasi</h1>
     <!-- Basic Card Example -->
     <div class="card shadow mb-4 col-6">
         <div class="card-body">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Transaksi\PeminjamanBuku;
 use App\Notifications\EmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,9 +50,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function postId(): HasMany
+    public function peminjamanId(): HasMany
     {
-        return $this->hasMany(Post::class, 'user_id');
+        return $this->hasMany(PeminjamanBuku::class, 'user_id');
     }
 
     /**

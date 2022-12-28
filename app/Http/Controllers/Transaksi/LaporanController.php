@@ -31,7 +31,7 @@ class LaporanController extends BaseController
     public function getBukuHilang(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeminjamanDetail::whereStatus('HILANG')->latest('updated_at');
+            $data = PeminjamanDetail::whereStatus('HILANG')->whereBetween('updated_at', [$request->startDate  . " 00:00:00", $request->endDate  . " 23:59:59"])->latest('updated_at');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('buku_id', function ($data) {
